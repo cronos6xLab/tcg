@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PokéCollector MX - Gestor de Colección Pokémon TCG</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Condensed:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #e3350d;
+            --secondary: #ffcb05;
+            --dark: #2a2a2a;
+            --light: #f5f5f5;
+            --success: #4CAF50;
+            --warning: #ff9800;
+            --danger: #f44336;
+            --card-eng: #3b4cca;
+            --card-esp: #c30e0e;
+            --card-jap: #2d2d2d;
+            --card-other: #8e44ad;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, #c62828 100%);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo i {
+            font-size: 2.5rem;
+            color: var(--secondary);
+        }
+
+        .logo h1 {
+            font-family: 'Roboto Condensed', sans-serif;
+            font-size: 1.8rem;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .stats {
+            display: flex;
+            gap: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 10px 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 30px;
+            padding: 30px 0;
+        }
+
+        /* Panel de búsqueda */
+        .search-panel {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            color: var(--primary);
+            font-size: 1.4rem;
+        }
+
+        .section-title i {
+            font-size: 1.2rem;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .search-bar input:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        .search-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .search-btn:hover {
+            background-color: #c62828;
+        }
+
+        .filters {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-group label {
+            margin-bottom: 5px;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .filter-group select {
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background-color: white;
+        }
+
+        .price-display {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .price-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .price-value {
+            font-weight: 600;
+        }
+
+        .price-mxn {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* Colección */
+        .collection-container {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .collection-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .add-card-btn {
+            background-color: var(--success);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .add-card-btn:hover {
+            background-color: #388e3c;
+        }
+
+        .collection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .card-item {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid #eee;
+        }
+
+        .card-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-header {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--dark);
+        }
+
+        .card-language {
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .language-eng {
+            background-color: var(--card-eng);
+        }
+
+        .language-esp {
+            background-color: var(--card-esp);
+        }
+
+        .language-jap {
+            background-color: var(--card-jap);
+        }
+
+        .language-other {
+            background-color: var(--card-other);
+        }
+
+        .card-image {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ed 100%);
+            padding: 15px;
+        }
+
+        .card-image img {
+            max-width: 100%;
+            max-height: 180px;
+            object-fit: contain;
+        }
+
+        .card-details {
+            padding: 15px;
+        }
+
+        .card-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .card-price {
+            text-align: right;
+        }
+
+        .card-price-value {
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: var(--primary);
+        }
+
+        .card-price-label {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .card-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        .card-btn {
+            padding: 6px 12px;
+            border-radius: 5px;
+            border: none;
+            font-weight: 500;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .card-btn.edit {
+            background-color: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .card-btn.delete {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+
+        .card-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .stats-panel, .market-panel {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 15px 10px;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+        }
+
+        .stat-box i {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        .stat-box.eng { border-top: 4px solid var(--card-eng); }
+        .stat-box.esp { border-top: 4px solid var(--card-esp); }
+        .stat-box.jap { border-top: 4px solid var(--card-jap); }
+        .stat-box.other { border-top: 4px solid var(--card-other); }
+
+        .stat-box-value {
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin: 5px 0;
+        }
+
+        .stat-box-label {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .market-list {
+            margin-top: 15px;
+        }
+
+        .market-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .market-item:last-child {
+            border-bottom: none;
+        }
+
+        .market-language {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .language-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .language-dot.eng { background-color: var(--card-eng); }
+        .language-dot.esp { background-color: var(--card-esp); }
+        .language-dot.jap { background-color: var(--card-jap); }
+        .language-dot.other { background-color: var(--card-other); }
+
+        .market-price {
+            font-weight: 600;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 30px 0;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .exchange-rate {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .stats {
+                width: 100%;
+                justify-content: space-around;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .collection-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .filters {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .collection-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-bar {
+                flex-direction: column;
+            }
+            
+            .card-actions {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-dragon"></i>
+                    <h1>PokéCollector <span>MX</span></h1>
+                </div>
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="total-cards">0</div>
+                        <div class="stat-label">Cartas totales</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="total-value">$0 MXN</div>
+                        <div class="stat-label">Valor total</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="avg-price">$0 MXN</div>
+                        <div class="stat-label">Precio promedio</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="main-content">
+            <!-- Left Column -->
+            <div class="left-column">
+                <!-- Search Panel -->
+                <section class="search-panel">
+                    <h2 class="section-title">
+                        <i class="fas fa-search"></i> Buscar cartas y precios
+                    </h2>
+                    
+                    <div class="search-bar">
+                        <input type="text" id="search-input" placeholder="Buscar por nombre (ej. Charizard, Pikachu)">
+                        <button class="search-btn" id="search-btn">
+                            <i class="fas fa-search"></i> Buscar
+                        </button>
+                    </div>
+                    
+                    <div class="filters">
+                        <div class="filter-group">
+                            <label for="language-filter">Idioma de la carta</label>
+                            <select id="language-filter">
+                                <option value="all">Todos los idiomas</option>
+                                <option value="eng">Inglés</option>
+                                <option value="esp">Español</option>
+                                <option value="jap">Japonés</option>
+                                <option value="other">Otro</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="condition-filter">Condición</label>
+                            <select id="condition-filter">
+                                <option value="all">Cualquier condición</option>
+                                <option value="mint">Mint (Perfecta)</option>
+                                <option value="near-mint">Near Mint (Casi perfecta)</option>
+                                <option value="excellent">Excelente</option>
+                                <option value="good">Buena</option>
+                                <option value="played">Jugada</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="rarity-filter">Rareza</label>
+                            <select id="rarity-filter">
+                                <option value="all">Todas las rarezas</option>
+                                <option value="common">Común</option>
+                                <option value="uncommon">Poco común</option>
+                                <option value="rare">Rara</option>
+                                <option value="holo">Holo</option>
+                                <option value="ultra-rare">Ultra rara</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="price-display">
+                        <h3 style="margin-bottom: 15px; font-size: 1.1rem;">Precios de mercado por idioma</h3>
+                        <div class="price-item">
+                            <span>Inglés (TCGPlayer):</span>
+                            <span class="price-value price-mxn" id="price-eng">$450 MXN</span>
+                        </div>
+                        <div class="price-item">
+                            <span>Español (Cardmarket):</span>
+                            <span class="price-value price-mxn" id="price-esp">$380 MXN</span>
+                        </div>
+                        <div class="price-item">
+                            <span>Japonés (Hareruya):</span>
+                            <span class="price-value price-mxn" id="price-jap">$520 MXN</span>
+                        </div>
+                        <div class="price-item">
+                            <span>Promedio mercado:</span>
+                            <span class="price-value price-mxn" id="price-avg">$450 MXN</span>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Collection -->
+                <section class="collection-container">
+                    <div class="collection-header">
+                        <h2 class="section-title">
+                            <i class="fas fa-book"></i> Mi Colección
+                        </h2>
+                        <button class="add-card-btn" id="add-card-btn">
+                            <i class="fas fa-plus"></i> Agregar carta
+                        </button>
+                    </div>
+                    
+                    <div class="collection-grid" id="collection-grid">
+                        <!-- Cartas se agregarán aquí dinámicamente -->
+                    </div>
+                </section>
+            </div>
+            
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Stats Panel -->
+                <section class="stats-panel">
+                    <h2 class="section-title">
+                        <i class="fas fa-chart-bar"></i> Estadísticas
+                    </h2>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-box eng">
+                            <i class="fas fa-flag-usa"></i>
+                            <div class="stat-box-value" id="count-eng">0</div>
+                            <div class="stat-box-label">Cartas en inglés</div>
+                        </div>
+                        
+                        <div class="stat-box esp">
+                            <i class="fas fa-flag"></i>
+                            <div class="stat-box-value" id="count-esp">0</div>
+                            <div class="stat-box-label">Cartas en español</div>
+                        </div>
+                        
+                        <div class="stat-box jap">
+                            <i class="fas fa-flag"></i>
+                            <div class="stat-box-value" id="count-jap">0</div>
+                            <div class="stat-box-label">Cartas en japonés</div>
+                        </div>
+                        
+                        <div class="stat-box other">
+                            <i class="fas fa-globe"></i>
+                            <div class="stat-box-value" id="count-other">0</div>
+                            <div class="stat-box-label">Otros idiomas</div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Market Panel -->
+                <section class="market-panel">
+                    <h2 class="section-title">
+                        <i class="fas fa-shopping-cart"></i> Precios de mercado
+                    </h2>
+                    
+                    <div class="market-list">
+                        <div class="market-item">
+                            <div class="market-language">
+                                <div class="language-dot eng"></div>
+                                <span>Inglés</span>
+                            </div>
+                            <div class="market-price">$450 MXN</div>
+                        </div>
+                        
+                        <div class="market-item">
+                            <div class="market-language">
+                                <div class="language-dot esp"></div>
+                                <span>Español</span>
+                            </div>
+                            <div class="market-price">$380 MXN</div>
+                        </div>
+                        
+                        <div class="market-item">
+                            <div class="market-language">
+                                <div class="language-dot jap"></div>
+                                <span>Japonés</span>
+                            </div>
+                            <div class="market-price">$520 MXN</div>
+                        </div>
+                        
+                        <div class="market-item">
+                            <div class="market-language">
+                                <div class="language-dot other"></div>
+                                <span>Francés</span>
+                            </div>
+                            <div class="market-price">$410 MXN</div>
+                        </div>
+                        
+                        <div class="market-item">
+                            <div class="market-language">
+                                <div class="language-dot other"></div>
+                                <span>Alemán</span>
+                            </div>
+                            <div class="market-price">$430 MXN</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para agregar/editar carta -->
+    <div class="modal" id="card-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Agregar nueva carta</h2>
+                <button class="close-modal" id="close-modal">&times;</button>
+            </div>
+            
+            <form id="card-form">
+                <div class="form-group">
+                    <label for="card-name">Nombre de la carta *</label>
+                    <input type="text" id="card-name" required placeholder="Ej: Charizard VMAX">
+                </div>
+                
+                <div class="form-group">
+                    <label for="card-language">Idioma *</label>
+                    <select id="card-language" required>
+                        <option value="">Seleccionar idioma</option>
+                        <option value="eng">Inglés</option>
+                        <option value="esp">Español</option>
+                        <option value="jap">Japonés</option>
+                        <option value="other">Otro</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="card-set">Set/Expansión</label>
+                    <input type="text" id="card-set" placeholder="Ej: Sword & Shield - Darkness Ablaze">
+                </div>
+                
+                <div class="form-group">
+                    <label for="card-number">Número en set</label>
+                    <input type="text" id="card-number" placeholder="Ej: 074/189">
+                </div>
+                
+                <div class="form-group">
+                    <label for="card-condition">Condición *</label>
+                    <select id="card-condition" required>
+                        <option value="">Seleccionar condición</option>
+                        <option value="mint">Mint (Perfecta)</option>
+                        <option value="near-mint">Near Mint (Casi perfecta)</option>
+                        <option value="excellent">Excelente</option>
+                        <option value="good">Buena</option>
+                        <option value="played">Jugada</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="card-rarity">Rareza</label>
+                    <select id="card-rarity">
+                        <option value="">Seleccionar rareza</option>
+                        <option value="common">Común</option>
+                        <option value="uncommon">Poco común</option>
+                        <option value="rare">Rara</option>
+                        <option value="holo">Holo</option>
+                        <option value="ultra-rare">Ultra rara</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="card-price">Precio de mercado (MXN) *</label>
+                    <input type="number" id="card-price" required placeholder="Ej: 450" min="0" step="10">
+                </div>
+                
+                <div class="form-group">
+                    <label for="card-image">URL de imagen (opcional)</label>
+                    <input type="text" id="card-image" placeholder="https://ejemplo.com/imagen.jpg">
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancel-btn">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" id="save-btn">Guardar carta</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <p>PokéCollector MX &copy; 2023 - Gestor de colección Pokémon TCG</p>
+                    <p>Los precios son estimados basados en mercado internacional convertido a MXN</p>
+                </div>
+                <div class="exchange-rate">
+                    <p>Tipo de cambio estimado: 1 USD = 17.50 MXN | 1 EUR = 18.80 MXN | 100 JPY = 12.50 MXN</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Datos de ejemplo para la colección
+        let collection = [
+            {
+                id: 1,
+                name: "Charizard VMAX",
+                language: "eng",
+                set: "Sword & Shield - Darkness Ablaze",
+                number: "074/189",
+                condition: "near-mint",
+                rarity: "ultra-rare",
+                price: 850,
+                image: "https://assets.pokemon.com/assets/cms2/img/cards/web/SWSH5/SWSH5_EN_74.png"
+            },
+            {
+                id: 2,
+                name: "Pikachu V",
+                language: "esp",
+                set: "Espada y Escudo - Tinajas de la Oscuridad",
+                number: "043/189",
+                condition: "mint",
+                rarity: "ultra-rare",
+                price: 420,
+                image: "https://assets.pokemon.com/assets/cms2/img/cards/web/SWSH5/SWSH5_EN_43.png"
+            },
+            {
+                id: 3,
+                name: "Mewtwo GX",
+                language: "jap",
+                set: "Sm12a - Tag Bolt",
+                number: "068/095",
+                condition: "excellent",
+                rarity: "ultra-rare",
+                price: 650,
+                image: "https://assets.pokemon.com/assets/cms2/img/cards/web/SM12/SM12_EN_68.png"
+            },
+            {
+                id: 4,
+                name: "Blastoise V",
+                language: "eng",
+                set: "Sword & Shield - Battle Styles",
+                number: "018/163",
+                condition: "good",
+                rarity: "rare",
+                price: 280,
+                image: "https://assets.pokemon.com/assets/cms2/img/cards/web/SWSH6/SWSH6_EN_18.png"
+            },
+            {
+                id: 5,
+                name: "Gengar VMAX",
+                language: "esp",
+                set: "Espada y Escudo - Fusion Strike",
+                number: "156/264",
+                condition: "near-mint",
+                rarity: "ultra-rare",
+                price: 720,
+                image: "https://assets.pokemon.com/assets/cms2/img/cards/web/SWSH8/SWSH8_EN_156.png"
+            },
+            {
+                id: 6,
+                name: "Rayquaza V",
+                language: "jap",
+                set: "S6a - Rapid Strike Master",
+                number: "109/100",
+                condition: "mint",
+                rarity: "ultra-rare",
+                price: 580,
+                image: "https://assets.pokemon.com/assets/cms2/img/cards/web/SWSH6/SWSH6_EN_109.png"
+            }
+        ];
+
+        // Variables para el estado de la aplicación
+        let nextId = 7;
+        let editingCardId = null;
+
+        // Precios de mercado por idioma (en MXN)
+        const marketPrices = {
+            eng: 450,
+            esp: 380,
+            jap: 520,
+            other: 400
+        };
+
+        // Referencias a elementos del DOM
+        const collectionGrid = document.getElementById('collection-grid');
+        const addCardBtn = document.getElementById('add-card-btn');
+        const cardModal = document.getElementById('card-modal');
+        const closeModalBtn = document.getElementById('close-modal');
+        const cancelBtn = document.getElementById('cancel-btn');
+        const cardForm = document.getElementById('card-form');
+        const modalTitle = document.getElementById('modal-title');
+        const searchInput = document.getElementById('search-input');
+        const searchBtn = document.getElementById('search-btn');
+        const languageFilter = document.getElementById('language-filter');
+        const conditionFilter = document.getElementById('condition-filter');
+        const rarityFilter = document.getElementById('rarity-filter');
+
+        // Elementos de estadísticas
+        const totalCardsElement = document.getElementById('total-cards');
+        const totalValueElement = document.getElementById('total-value');
+        const avgPriceElement = document.getElementById('avg-price');
+        const countEngElement = document.getElementById('count-eng');
+        const countEspElement = document.getElementById('count-esp');
+        const countJapElement = document.getElementById('count-jap');
+        const countOtherElement = document.getElementById('count-other');
+
+        // Inicializar la aplicación
+        document.addEventListener('DOMContentLoaded', function() {
+            renderCollection();
+            updateStats();
+            setupEventListeners();
+            updateMarketPrices();
+        });
+
+        // Configurar event listeners
+        function setupEventListeners() {
+            // Modal
+            addCardBtn.addEventListener('click', () => openModal());
+            closeModalBtn.addEventListener('click', () => closeModal());
+            cancelBtn.addEventListener('click', () => closeModal());
+            
+            // Formulario
+            cardForm.addEventListener('submit', handleSaveCard);
+            
+            // Búsqueda y filtros
+            searchBtn.addEventListener('click', applyFilters);
+            searchInput.addEventListener('keyup', function(event) {
+                if (event.key === 'Enter') applyFilters();
+            });
+            
+            languageFilter.addEventListener('change', applyFilters);
+            conditionFilter.addEventListener('change', applyFilters);
+            rarityFilter.addEventListener('change', applyFilters);
+            
+            // Cerrar modal al hacer clic fuera
+            window.addEventListener('click', function(event) {
+                if (event.target === cardModal) {
+                    closeModal();
+                }
+            });
+        }
+
+        // Renderizar la colección
+        function renderCollection(cards = collection) {
+            collectionGrid.innerHTML = '';
+            
+            if (cards.length === 0) {
+                collectionGrid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px 20px; color: #666;">
+                        <i class="fas fa-box-open" style="font-size: 3rem; margin-bottom: 15px; opacity: 0.5;"></i>
+                        <h3>No hay cartas en tu colección</h3>
+                        <p>Agrega tu primera carta haciendo clic en el botón "Agregar carta"</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            cards.forEach(card => {
+                const cardElement = createCardElement(card);
+                collectionGrid.appendChild(cardElement);
+            });
+        }
+
+        // Crear elemento de carta
+        function createCardElement(card) {
+            const languageLabels = {
+                eng: { text: 'ENG', class: 'language-eng' },
+                esp: { text: 'ESP', class: 'language-esp' },
+                jap: { text: 'JAP', class: 'language-jap' },
+                other: { text: 'OTRO', class: 'language-other' }
+            };
+            
+            const conditionLabels = {
+                mint: 'Mint',
+                'near-mint': 'Near Mint',
+                excellent: 'Excelente',
+                good: 'Buena',
+                played: 'Jugada'
+            };
+            
+            const rarityLabels = {
+                common: 'Común',
+                uncommon: 'Poco común',
+                rare: 'Rara',
+                holo: 'Holo',
+                'ultra-rare': 'Ultra rara'
+            };
+            
+            const languageInfo = languageLabels[card.language];
+            const conditionText = conditionLabels[card.condition] || card.condition;
+            const rarityText = rarityLabels[card.rarity] || card.rarity;
+            
+            // Determinar imagen por defecto basada en el nombre de la carta
+            const defaultImages = {
+                'charizard': 'https://assets.pokemon.com/assets/cms2/img/cards/web/SWSH5/SWSH5_EN_74.png',
+                'pikachu': 'https://assets.pokemon.com/assets/cms2/img/cards/web/SWSH5/SWSH5_EN_43.png',
+                'mewtwo': 'https://assets.pokemon.com/assets/cms2/img/cards/web/SM12/SM12_EN_68.png',
+                'blastoise': 'https://assets.pokemon.com/assets/cms2/img/cards/web/SWSH6/SWSH6_EN_18.png',
+                'gengar': 'https://assets.pokemon.com/assets/cms2/img/cards/web/SWSH8/SWSH8_EN_156.png',
+                'rayquaza': 'https://assets.pokemon.com/assets/cms2/img/cards/web/SWSH6/SWSH6_EN_109.png'
+            };
+            
+            let imageUrl = card.image;
+            if (!imageUrl) {
+                // Buscar una imagen por defecto basada en el nombre
+                const cardNameLower = card.name.toLowerCase();
+                for (const [key, url] of Object.entries(defaultImages)) {
+                    if (cardNameLower.includes(key)) {
+                        imageUrl = url;
+                        break;
+                    }
+                }
+                
+                // Si no encontramos una imagen específica, usar una genérica
+                if (!imageUrl) {
+                    imageUrl = 'https://assets.pokemon.com/assets/cms2/img/cards/web/SWSH5/SWSH5_EN_1.png';
+                }
+            }
+            
+            const cardElement = document.createElement('div');
+            cardElement.className = 'card-item';
+            cardElement.innerHTML = `
+                <div class="card-header">
+                    <div class="card-name">${card.name}</div>
+                    <div class="card-language ${languageInfo.class}">${languageInfo.text}</div>
+                </div>
+                <div class="card-image">
+                    <img src="${imageUrl}" alt="${card.name}">
+                </div>
+                <div class="card-details">
+                    <div class="card-info">
+                        <div>
+                            <div style="font-weight: 500; margin-bottom: 5px;">${card.set || 'Set no especificado'}</div>
+                            <div style="font-size: 0.8rem; color: #666;">${card.number || 'N/A'} • ${conditionText} • ${rarityText}</div>
+                        </div>
+                        <div class="card-price">
+                            <div class="card-price-value">$${card.price} MXN</div>
+                            <div class="card-price-label">Valor de mercado</div>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="card-btn edit" data-id="${card.id}">
+                            <i class="fas fa-edit"></i> Editar
+                        </button>
+                        <button class="card-btn delete" data-id="${card.id}">
+                            <i class="fas fa-trash"></i> Eliminar
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            // Agregar event listeners a los botones
+            cardElement.querySelector('.edit').addEventListener('click', () => openModal(card.id));
+            cardElement.querySelector('.delete').addEventListener('click', () => deleteCard(card.id));
+            
+            return cardElement;
+        }
+
+        // Actualizar estadísticas
+        function updateStats() {
+            const totalCards = collection.length;
+            const totalValue = collection.reduce((sum, card) => sum + card.price, 0);
+            const avgPrice = totalCards > 0 ? Math.round(totalValue / totalCards) : 0;
+            
+            // Contar por idioma
+            const countByLanguage = {
+                eng: collection.filter(card => card.language === 'eng').length,
+                esp: collection.filter(card => card.language === 'esp').length,
+                jap: collection.filter(card => card.language === 'jap').length,
+                other: collection.filter(card => card.language === 'other').length
+            };
+            
+            // Actualizar elementos del DOM
+            totalCardsElement.textContent = totalCards;
+            totalValueElement.textContent = `$${totalValue} MXN`;
+            avgPriceElement.textContent = `$${avgPrice} MXN`;
+            
+            countEngElement.textContent = countByLanguage.eng;
+            countEspElement.textContent = countByLanguage.esp;
+            countJapElement.textContent = countByLanguage.jap;
+            countOtherElement.textContent = countByLanguage.other;
+        }
+
+        // Actualizar precios de mercado
+        function updateMarketPrices() {
+            document.getElementById('price-eng').textContent = `$${marketPrices.eng} MXN`;
+            document.getElementById('price-esp').textContent = `$${marketPrices.esp} MXN`;
+            document.getElementById('price-jap').textContent = `$${marketPrices.jap} MXN`;
+            
+            // Calcular promedio
+            const avgPrice = Math.round((marketPrices.eng + marketPrices.esp + marketPrices.jap + marketPrices.other) / 4);
+            document.getElementById('price-avg').textContent = `$${avgPrice} MXN`;
+        }
+
+        // Abrir modal
+        function openModal(cardId = null) {
+            editingCardId = cardId;
+            
+            if (cardId) {
+                // Modo edición
+                modalTitle.textContent = 'Editar carta';
+                const card = collection.find(c => c.id === cardId);
+                
+                // Llenar formulario con datos de la carta
+                document.getElementById('card-name').value = card.name;
+                document.getElementById('card-language').value = card.language;
+                document.getElementById('card-set').value = card.set || '';
+                document.getElementById('card-number').value = card.number || '';
+                document.getElementById('card-condition').value = card.condition;
+                document.getElementById('card-rarity').value = card.rarity || '';
+                document.getElementById('card-price').value = card.price;
+                document.getElementById('card-image').value = card.image || '';
+            } else {
+                // Modo agregar
+                modalTitle.textContent = 'Agregar nueva carta';
+                cardForm.reset();
+                
+                // Establecer precio sugerido basado en idioma seleccionado
+                const languageSelect = document.getElementById('card-language');
+                languageSelect.addEventListener('change', function() {
+                    if (this.value && marketPrices[this.value]) {
+                        document.getElementById('card-price').value = marketPrices[this.value];
+                    }
+                });
+            }
+            
+            cardModal.style.display = 'flex';
+        }
+
+        // Cerrar modal
+        function closeModal() {
+            cardModal.style.display = 'none';
+            editingCardId = null;
+            cardForm.reset();
+        }
+
+        // Manejar guardar carta
+        function handleSaveCard(event) {
+            event.preventDefault();
+            
+            // Obtener valores del formulario
+            const cardData = {
+                name: document.getElementById('card-name').value.trim(),
+                language: document.getElementById('card-language').value,
+                set: document.getElementById('card-set').value.trim(),
+                number: document.getElementById('card-number').value.trim(),
+                condition: document.getElementById('card-condition').value,
+                rarity: document.getElementById('card-rarity').value,
+                price: parseInt(document.getElementById('card-price').value) || 0,
+                image: document.getElementById('card-image').value.trim()
+            };
+            
+            // Validar
+            if (!cardData.name || !cardData.language || !cardData.condition) {
+                alert('Por favor completa los campos obligatorios (*)');
+                return;
+            }
+            
+            if (editingCardId) {
+                // Actualizar carta existente
+                const index = collection.findIndex(c => c.id === editingCardId);
+                if (index !== -1) {
+                    collection[index] = { ...collection[index], ...cardData };
+                }
+            } else {
+                // Agregar nueva carta
+                cardData.id = nextId++;
+                collection.push(cardData);
+            }
+            
+            // Actualizar UI
+            renderCollection();
+            updateStats();
+            applyFilters(); // Para mantener los filtros aplicados
+            closeModal();
+        }
+
+        // Eliminar carta
+        function deleteCard(cardId) {
+            if (confirm('¿Estás seguro de que quieres eliminar esta carta de tu colección?')) {
+                collection = collection.filter(card => card.id !== cardId);
+                renderCollection();
+                updateStats();
+                applyFilters(); // Para mantener los filtros aplicados
+            }
+        }
+
+        // Aplicar filtros
+        function applyFilters() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const languageFilterValue = languageFilter.value;
+            const conditionFilterValue = conditionFilter.value;
+            const rarityFilterValue = rarityFilter.value;
+            
+            let filteredCards = collection.filter(card => {
+                // Filtrar por término de búsqueda
+                if (searchTerm && !card.name.toLowerCase().includes(searchTerm)) {
+                    return false;
+                }
+                
+                // Filtrar por idioma
+                if (languageFilterValue !== 'all' && card.language !== languageFilterValue) {
+                    return false;
+                }
+                
+                // Filtrar por condición
+                if (conditionFilterValue !== 'all' && card.condition !== conditionFilterValue) {
+                    return false;
+                }
+                
+                // Filtrar por rareza
+                if (rarityFilterValue !== 'all' && card.rarity !== rarityFilterValue) {
+                    return false;
+                }
+                
+                return true;
+            });
+            
+            renderCollection(filteredCards);
+            
+            // Actualizar precios de mercado basados en la búsqueda
+            if (searchTerm) {
+                updateMarketPricesForSearch(searchTerm);
+            }
+        }
+
+        // Actualizar precios de mercado para búsqueda
+        function updateMarketPricesForSearch(searchTerm) {
+            // Simular búsqueda de precios en tiempo real
+            // En una aplicación real, aquí se haría una llamada a una API
+            
+            // Precios simulados basados en la búsqueda
+            const searchBasedPrices = {
+                charizard: { eng: 850, esp: 720, jap: 950, other: 800 },
+                pikachu: { eng: 420, esp: 380, jap: 600, other: 450 },
+                mewtwo: { eng: 650, esp: 580, jap: 800, other: 700 },
+                blastoise: { eng: 280, esp: 250, jap: 420, other: 300 },
+                gengar: { eng: 720, esp: 650, jap: 850, other: 750 },
+                rayquaza: { eng: 580, esp: 520, jap: 750, other: 650 }
+            };
+            
+            // Buscar coincidencias
+            let matchedPrice = null;
+            for (const [key, prices] of Object.entries(searchBasedPrices)) {
+                if (searchTerm.includes(key)) {
+                    matchedPrice = prices;
+                    break;
+                }
+            }
+            
+            // Actualizar precios si hay coincidencia
+            if (matchedPrice) {
+                document.getElementById('price-eng').textContent = `$${matchedPrice.eng} MXN`;
+                document.getElementById('price-esp').textContent = `$${matchedPrice.esp} MXN`;
+                document.getElementById('price-jap').textContent = `$${matchedPrice.jap} MXN`;
+                
+                // Calcular promedio
+                const avgPrice = Math.round((matchedPrice.eng + matchedPrice.esp + matchedPrice.jap + matchedPrice.other) / 4);
+                document.getElementById('price-avg').textContent = `$${avgPrice} MXN`;
+            } else {
+                // Volver a precios por defecto
+                updateMarketPrices();
+            }
+        }
+    </script>
+</body>
+</html>
