@@ -1,729 +1,384 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Califica tu experiencia - Restaurante de Barbacoa</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>The Star of Hope - A Fairy Tale</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            background-color: #000;
-            color: #fff;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
         }
         
         .container {
-            width: 100%;
             max-width: 800px;
             margin: 0 auto;
-        }
-        
-        .card {
-            background-color: #1a1a1a;
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 10px 30px rgba(255, 140, 0, 0.2);
-            border: 1px solid #333;
-            transition: all 0.3s ease;
-        }
-        
-        .card:hover {
-            box-shadow: 0 15px 40px rgba(255, 140, 0, 0.3);
-        }
-        
-        h1 {
-            color: #ff8c00;
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-        
-        .description {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #ccc;
-            font-size: 1.1rem;
-            line-height: 1.6;
+            background: white;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
         }
         
         .page {
-            display: none;
-            animation: fadeIn 0.5s ease;
+            padding: 60px 50px;
+            min-height: 100vh;
+            page-break-after: always;
+            border-bottom: 2px solid #ddd;
         }
         
-        .active-page {
-            display: block;
-        }
-        
-        .star-container {
+        .cover-page {
             display: flex;
+            flex-direction: column;
             justify-content: center;
-            margin: 40px 0;
-            flex-wrap: wrap;
-        }
-        
-        .star {
-            font-size: 4rem;
-            color: #444;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            margin: 0 10px;
-        }
-        
-        .star:hover {
-            transform: scale(1.2);
-        }
-        
-        .star.selected {
-            color: #ff8c00;
-            text-shadow: 0 0 15px rgba(255, 140, 0, 0.7);
-        }
-        
-        .rating-text {
-            text-align: center;
-            font-size: 1.3rem;
-            margin-top: 20px;
-            color: #ff8c00;
-            font-weight: 600;
-        }
-        
-        .form-group {
-            margin-bottom: 30px;
-        }
-        
-        .form-label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            color: #eee;
-        }
-        
-        .optional {
-            color: #888;
-            font-weight: normal;
-            font-size: 0.9rem;
-        }
-        
-        .small-star-container {
-            display: flex;
-            margin: 10px 0;
-        }
-        
-        .small-star {
-            font-size: 1.8rem;
-            color: #444;
-            cursor: pointer;
-            margin-right: 5px;
-            transition: all 0.2s ease;
-        }
-        
-        .small-star:hover {
-            transform: scale(1.1);
-        }
-        
-        .small-star.selected {
-            color: #ff8c00;
-        }
-        
-        input, textarea, select {
-            width: 100%;
-            padding: 15px;
-            background-color: #333;
-            border: 1px solid #555;
-            border-radius: 10px;
-            color: #fff;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-        
-        input:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: #ff8c00;
-            box-shadow: 0 0 0 2px rgba(255, 140, 0, 0.2);
-        }
-        
-        textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
-        
-        .radio-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-top: 10px;
-        }
-        
-        .radio-option {
-            display: flex;
             align-items: center;
-            cursor: pointer;
-        }
-        
-        .radio-option input {
-            width: auto;
-            margin-right: 8px;
-        }
-        
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 18px;
-            background: linear-gradient(to right, #ff8c00, #ff6b00);
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            border: none;
+        }
+        
+        .cover-page h1 {
+            font-size: 4em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .cover-image {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            margin: 30px 0;
             border-radius: 10px;
-            font-size: 1.2rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .cover-page p {
+            font-size: 1.3em;
             margin-top: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+        }
+        
+        h2 {
+            font-size: 1.8em;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            color: #34495e;
+        }
+        
+        h3 {
+            font-size: 1.3em;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            color: #555;
+            font-weight: bold;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+            font-size: 1em;
+            line-height: 1.8;
+        }
+        
+        .question {
+            background: #f0f4ff;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #667eea;
+            border-radius: 5px;
+        }
+        
+        .question-text {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+        
+        .answer-text {
+            color: #333;
+            font-style: normal;
+            line-height: 1.8;
+        }
+        
+        .illustration-container {
             text-align: center;
-            text-decoration: none;
+            margin: 30px 0;
+            page-break-inside: avoid;
         }
         
-        .btn:hover {
-            background: linear-gradient(to right, #ff6b00, #ff8c00);
-            transform: translateY(-3px);
-            box-shadow: 0 7px 15px rgba(255, 107, 0, 0.3);
+        .illustration-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
         }
         
-        .btn:active {
-            transform: translateY(0);
-        }
-        
-        .btn-secondary {
-            background: #333;
-            margin-top: 15px;
-        }
-        
-        .btn-secondary:hover {
-            background: #444;
-        }
-        
-        .success-message {
-            text-align: center;
-            padding: 30px;
-            color: #4CAF50;
-            font-size: 1.3rem;
-            display: none;
-        }
-        
-        .google-link {
-            display: inline-block;
-            background-color: #4285F4;
-            color: white;
-            padding: 15px 30px;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: 600;
-            margin-top: 20px;
-            transition: all 0.3s ease;
-        }
-        
-        .google-link:hover {
-            background-color: #3367D6;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(66, 133, 244, 0.4);
-        }
-        
-        .google-link i {
-            margin-right: 10px;
-        }
-        
-        .progress-bar {
-            display: flex;
-            justify-content: center;
+        .illustration-caption {
+            font-style: italic;
+            color: #666;
+            font-size: 0.95em;
             margin-bottom: 30px;
         }
         
-        .progress-step {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background-color: #333;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 10px;
+        .justification {
+            background: #fff9e6;
+            padding: 30px;
+            border-radius: 8px;
+            border: 2px solid #f0d66f;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.9em;
             color: #888;
-            font-weight: 600;
-            position: relative;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
         }
         
-        .progress-step.active {
-            background-color: #ff8c00;
-            color: #000;
+        .story-text {
+            text-align: justify;
+            font-size: 1.05em;
+            line-height: 1.9;
         }
         
-        .progress-step.completed {
-            background-color: #4CAF50;
-            color: #000;
+        .end-marker {
+            text-align: center;
+            font-size: 1.5em;
+            margin: 40px 0;
+            color: #667eea;
+            font-weight: bold;
         }
         
-        .progress-step:not(:last-child)::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 100%;
-            width: 20px;
-            height: 2px;
-            background-color: #333;
-            transform: translateY(-50%);
-        }
-        
-        .progress-step.completed:not(:last-child)::after {
-            background-color: #4CAF50;
-        }
-        
-        .mesero-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            align-items: flex-start;
-        }
-        
-        .mesero-stars {
-            flex: 1;
-            min-width: 200px;
-        }
-        
-        .mesero-nombre {
-            flex: 1;
-            min-width: 200px;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @media (max-width: 768px) {
-            .card {
-                padding: 25px;
+        @media print {
+            body {
+                background: white;
             }
             
-            h1 {
-                font-size: 2rem;
+            .container {
+                box-shadow: none;
             }
             
-            .star {
-                font-size: 3rem;
-            }
-            
-            .mesero-container {
-                flex-direction: column;
+            .page {
+                page-break-after: always;
+                box-shadow: none;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Página 1: Calificación inicial -->
-        <div id="page1" class="page active-page">
-            <div class="card">
-                <h1>¡Califica tu experiencia en [Nombre de tu Barbacoa]!</h1>
-                <p class="description">
-                    Gracias por visitarnos. Tu opinión nos ayuda a mejorar nuestra barbacoa, servicio y atención. 
-                    Toma 1 minuto.
-                </p>
-                
-                <div class="progress-bar">
-                    <div class="progress-step active">1</div>
-                    <div class="progress-step">2</div>
-                </div>
-                
-                <h2 style="text-align: center; margin-bottom: 30px;">¿Cuántas estrellas le das a nuestro restaurante?</h2>
-                
-                <div class="star-container">
-                    <div class="star" data-value="1"><i class="far fa-star"></i></div>
-                    <div class="star" data-value="2"><i class="far fa-star"></i></div>
-                    <div class="star" data-value="3"><i class="far fa-star"></i></div>
-                    <div class="star" data-value="4"><i class="far fa-star"></i></div>
-                    <div class="star" data-value="5"><i class="far fa-star"></i></div>
-                </div>
-                
-                <div class="rating-text" id="rating-text">Selecciona una calificación</div>
-                
-                <button id="next-btn" class="btn" disabled>Continuar</button>
-            </div>
+        
+        <!-- COVER PAGE -->
+        <div class="page cover-page">
+            <h1>The Star of Hope</h1>
+            <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/8c6295a7-0fe9-41a2-add2-312f3a4b3d4b" alt="The Star of Hope Cover" class="cover-image">
+            <p>A Fairy Tale</p>
+            <p style="margin-top: 60px; font-size: 1.1em;">by: ______________________</p>
+            <p>Group: 5-3</p>
+            <p style="margin-top: 40px; font-size: 0.95em;">Temas Selectos de Inglés I</p>
+            <p style="font-size: 0.95em;">Profesor: Abel Ramírez Luca</p>
         </div>
         
-        <!-- Página 2: Formulario completo -->
-        <div id="page2" class="page">
-            <div class="card">
-                <h1>¡Califica tu experiencia en [Nombre de tu Barbacoa]!</h1>
-                <p class="description">
-                    Gracias por visitarnos. Tu opinión nos ayuda a mejorar nuestra barbacoa, servicio y atención. 
-                    Toma 1 minuto.
-                </p>
-                
-                <div class="progress-bar">
-                    <div class="progress-step completed">1</div>
-                    <div class="progress-step active">2</div>
-                </div>
-                
-                <form id="survey-form">
-                    <!-- Pregunta 1 -->
-                    <div class="form-group">
-                        <label class="form-label">¿Cómo calificarías el servicio general del restaurante?</label>
-                        <div class="small-star-container" id="service-stars">
-                            <div class="small-star" data-value="1"><i class="far fa-star"></i></div>
-                            <div class="small-star" data-value="2"><i class="far fa-star"></i></div>
-                            <div class="small-star" data-value="3"><i class="far fa-star"></i></div>
-                            <div class="small-star" data-value="4"><i class="far fa-star"></i></div>
-                            <div class="small-star" data-value="5"><i class="far fa-star"></i></div>
-                        </div>
-                        <div class="rating-text" id="service-rating-text">Selecciona una calificación</div>
-                    </div>
-                    
-                    <!-- Pregunta 2 -->
-                    <div class="form-group">
-                        <label class="form-label">¿Qué tan deliciosa estuvo nuestra barbacoa hoy?</label>
-                        <div class="small-star-container" id="food-stars">
-                            <div class="small-star" data-value="1"><i class="far fa-star"></i></div>
-                            <div class="small-star" data-value="2"><i class="far fa-star"></i></div>
-                            <div class="small-star" data-value="3"><i class="far fa-star"></i></div>
-                            <div class="small-star" data-value="4"><i class="far fa-star"></i></div>
-                            <div class="small-star" data-value="5"><i class="far fa-star"></i></div>
-                        </div>
-                        <div class="rating-text" id="food-rating-text">Selecciona una calificación</div>
-                    </div>
-                    
-                    <!-- Pregunta 3 -->
-                    <div class="form-group">
-                        <label class="form-label">¿Cómo calificarías la atención de tu mesero(a)?</label>
-                        <div class="mesero-container">
-                            <div class="mesero-stars">
-                                <div class="small-star-container" id="waiter-stars">
-                                    <div class="small-star" data-value="1"><i class="far fa-star"></i></div>
-                                    <div class="small-star" data-value="2"><i class="far fa-star"></i></div>
-                                    <div class="small-star" data-value="3"><i class="far fa-star"></i></div>
-                                    <div class="small-star" data-value="4"><i class="far fa-star"></i></div>
-                                    <div class="small-star" data-value="5"><i class="far fa-star"></i></div>
-                                </div>
-                                <div class="rating-text" id="waiter-rating-text">Selecciona una calificación</div>
-                            </div>
-                            <div class="mesero-nombre">
-                                <label class="form-label">Nombre del mesero <span class="optional">(opcional)</span></label>
-                                <input type="text" id="waiter-name" placeholder="Ej: Carlos, María, etc.">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Pregunta 4 -->
-                    <div class="form-group">
-                        <label class="form-label">¿Qué te gustó más de tu visita?</label>
-                        <textarea id="liked-most" placeholder="Ej: La sazón de la carne, la atención del personal, el ambiente..."></textarea>
-                    </div>
-                    
-                    <!-- Pregunta 5 -->
-                    <div class="form-group">
-                        <label class="form-label">¿Cómo podemos mejorar? <span class="optional">(opcional)</span></label>
-                        <textarea id="improvements" placeholder="Tus sugerencias nos ayudan a mejorar..."></textarea>
-                    </div>
-                    
-                    <!-- Pregunta 6 -->
-                    <div class="form-group">
-                        <label class="form-label">¿Volverías a visitarnos?</label>
-                        <div class="radio-group">
-                            <label class="radio-option">
-                                <input type="radio" name="return" value="Sí, definitivamente">
-                                <span>Sí, definitivamente</span>
-                            </label>
-                            <label class="radio-option">
-                                <input type="radio" name="return" value="Probablemente sí">
-                                <span>Probablemente sí</span>
-                            </label>
-                            <label class="radio-option">
-                                <input type="radio" name="return" value="No estoy seguro">
-                                <span>No estoy seguro</span>
-                            </label>
-                            <label class="radio-option">
-                                <input type="radio" name="return" value="Probablemente no">
-                                <span>Probablemente no</span>
-                            </label>
-                            <label class="radio-option">
-                                <input type="radio" name="return" value="No">
-                                <span>No</span>
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <!-- Pregunta 7 -->
-                    <div class="form-group">
-                        <label class="form-label">Datos de contacto <span class="optional">(opcional)</span></label>
-                        <input type="text" id="contact" placeholder="Email o teléfono para enviarte promociones especiales">
-                    </div>
-                    
-                    <button type="submit" class="btn">¡Enviar mi calificación!</button>
-                    <button type="button" id="back-btn" class="btn btn-secondary">Volver atrás</button>
-                </form>
-            </div>
-        </div>
-        
-        <!-- Página 3: Gracias por 5 estrellas -->
-        <div id="page3" class="page">
-            <div class="card">
-                <h1>¡Gracias por tu calificación perfecta! ⭐⭐⭐⭐⭐</h1>
-                <div class="description">
-                    <p>Nos alegra mucho que hayas disfrutado de tu experiencia en nuestro restaurante de barbacoa.</p>
-                    <p>Te invitamos a compartir tu opinión en Google para que más personas puedan conocer nuestra calidad.</p>
-                    
-                    <div style="text-align: center; margin-top: 40px;">
-                        <a href="https://www.google.com" target="_blank" class="google-link">
-                            <i class="fab fa-google"></i> Compartir mi opinión en Google
-                        </a>
-                    </div>
-                    
-                    <p style="margin-top: 40px; color: #ff8c00; font-weight: 600;">
-                        ¡Te esperamos pronto nuevamente!
-                    </p>
-                </div>
-                
-                <button id="restart-btn" class="btn">Volver al inicio</button>
-            </div>
-        </div>
-        
-        <!-- Mensaje de éxito -->
-        <div id="success-message" class="success-message">
-            <i class="fas fa-check-circle" style="font-size: 4rem; margin-bottom: 20px;"></i>
-            <h2>¡Gracias por tu calificación!</h2>
-            <p>Tu opinión es muy valiosa para nosotros y nos ayuda a mejorar.</p>
-            <p style="margin-top: 30px; color: #ff8c00;">¡Te esperamos pronto en nuestra barbacoa!</p>
+        <!-- PREGUNTAS GUÍA -->
+        <div class="page">
+            <h1>Guide Questions</h1>
             
-            <button id="new-review-btn" class="btn" style="margin-top: 40px;">Realizar otra calificación</button>
+            <div class="question">
+                <div class="question-text">1. What is the title of my fairy tale and why did I choose it?</div>
+                <div class="answer-text">
+                    The title of my fairy tale is "The Star of Hope". I choosed this title because the story is about a girl that finds hope in a dark moment of her life. The star represents something bright and beautiful that helps her to find her way. I think this name is good because it resume the main message of the story.
+                </div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">2. Who is my story written for (children or teenagers) and why?</div>
+                <div class="answer-text">
+                    My story is written for teenagers, especially for teenagers between 14 and 17 years old. The reason is that they can understand better the feelings of the principal character and the problems that she faces in the story. I wrote it for teenagers because the lesson at the end is about never giving up and always to believe in your dreams, and I think teenagers needs to hear this message more than childrens.
+                </div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">3. What is my fairy tale about and what message does it communicate?</div>
+                <div class="answer-text">
+                    My fairy tale is about a girl named Elena who lives in a poor village in the mountains. One day, she found a magic star that was fallen from the sky. The star give her the power to see the future and to understand the problems of other people. Elena used this power to help the people in her village. At the end, she realized that the real magic is not the star, but the love and compassion that she have for others. The message is that we can be magical and special if we help others and if we care about them.
+                </div>
+            </div>
         </div>
+        
+        <!-- PREGUNTAS GUÍA PÁGINA 2 -->
+        <div class="page">
+            <h1>Guide Questions (Continued)</h1>
+            
+            <div class="question">
+                <div class="question-text">4. Which fairy tale elements did I include and why?</div>
+                <div class="answer-text">
+                    I included several fairy tale elements in my story. First, I used a magic object, which is the star. This is a typical element of fairy tales because the magic is very important in this genre. Second, I included a main character (Elena) that is a common person but with a special destiny. Third, I included magical powers that must be used for good things, not for bad things. Fourth, I wrote a conflict in my story when Elena lost the star and she had to find her own power inside her. And finally, I included a happy ending because fairy tales usually have this type of ending where the good person wins and the lesson is learned.
+                </div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">5. What grammatical topics from Selected Topics in English I, did I intentionally use in my story?</div>
+                <div class="answer-text">
+                    I intentionaly use several grammatical topics in my story. I used the Past Simple because the story is narrated in the past, with verbs like "lived", "found", "was". I also used the Present Progressive to describe actions that were happening, for example: "she was walking in the forest". I used the Passive Voice in sentences like "the star was fallen from the sky" and "Elena was chosen by the magic". I included Tag Questions like "she was happy, wasn't she?" and "he could understand, couldn't he?". I used the Passive Voice in future: "the village will be saved by Elena". I also used Modal Verbs like "should", "could" and "must" in sentences like "she should believe in herself" and "she could use her powers". Finally, I used First Conditional like "if she helps the people, she will feel happy" and Second Conditional like "if she didn't have the star, she would find another way".
+                </div>
+            </div>
+        </div>
+        
+        <!-- PORTADA DEL CUENTO -->
+        <div class="page" style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+            <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/17a5b847-f1b8-4d4f-83ec-ea6a32d4671a" alt="The Star of Hope" class="cover-image" style="max-width: 100%; height: auto;">
+            <h1 style="margin-top: 40px;">The Star of Hope</h1>
+            <h2 style="color: #666;">A Fairy Tale</h2>
+        </div>
+        
+        <!-- CUENTO - PÁGINA 1 -->
+        <div class="page">
+            <h2>The Star of Hope</h2>
+            
+            <div class="story-text">
+                <p>Once upon a time, in a small village hidden among the mountains, there lived a girl named Elena. She was about fifteen years old, and her life was not easy. Her family was very poor, and she had to work hard every day to help her parents. Elena lived in a small house at the edge of the village, far away from other people. Every morning, she would go to the forest to collect wood and plants that she could sell in the market.</p>
+                
+                <p>One dark night, when Elena was walking home from the forest, something magical happened. A bright light fell from the sky like a comet. Elena ran towards the light, and when she arrived at the place, she found a beautiful star on the ground. The star was glowing with a soft, golden light. It was the most beautiful thing that Elena had ever seen in her entire life. She took the star carefully in her hands, and immediately, she felt a warm sensation running through her body.</p>
+            </div>
+            
+            <div class="illustration-container">
+                <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/ec868cfa-c1f8-454c-ba4e-f1085f17218c" alt="Elena finds the magic star in the forest" class="illustration-image">
+                <div class="illustration-caption">Elena finds the magic star in the forest.</div>
+            </div>
+        </div>
+        
+        <!-- CUENTO - PÁGINA 2 -->
+        <div class="page">
+            <div class="story-text">
+                <p>That night, Elena could not sleep because she was thinking about the star. She looked at it for hours, and as she observed it, she began to understand something strange. The star was giving her visions of the future. She could see what would happen to the people in her village. She could see their problems, their sadness, and their hopes. It was as if the star had chosen her for a special purpose.</p>
+                
+                <p>The next morning, Elena decided that she would use the star's power to help her village. She went to see a woman named Maria, whose son was sick. Elena touched the star, and suddenly, she could see exactly what Maria's son needed. She gave Maria advice about special herbs that would help her son recover. Maria was surprised because Elena knew so much about medicine, but Elena did not tell her about the star.</p>
+                
+                <p>Day after day, Elena used the star's magic to help more and more people. If a farmer needed to know when to plant his crops, Elena would look at the star and tell him. If someone was lost in the mountains, Elena would see their location through the star's visions. If a family did not have money for food, Elena would find a way to help them. The village began to change. People started to trust each other more. The crops grew better. The sick people recovered. Happiness was returning to the village.</p>
+            </div>
+            
+            <div class="illustration-container">
+                <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/6399d02e-c409-4cda-a51b-8a3b50e004a0" alt="Elena helps the villagers with the star's magic" class="illustration-image">
+                <div class="illustration-caption">Elena helps the villagers with the star's magic.</div>
+            </div>
+        </div>
+        
+        <!-- CUENTO - PÁGINA 3 -->
+        <div class="page">
+            <div class="story-text">
+                <p>However, Elena did not realize that someone had been watching her. There was a jealous man named Victor who lived in the village. He wanted to be important and famous, but nobody respected him because he was selfish and unkind. Victor saw that Elena was becoming more and more respected by the villagers, and he became very angry. One night, while Elena was sleeping, Victor broke into her house and stole the star.</p>
+            </div>
+            
+            <div class="illustration-container">
+                <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/901c6a81-f20b-4d25-8cc0-0209df6239a9" alt="Victor steals the star while Elena sleeps" class="illustration-image">
+                <div class="illustration-caption">Victor steals the star while Elena sleeps.</div>
+            </div>
+            
+            <div class="story-text">
+                <p>When Elena woke up and found that the star was gone, she felt devastated. For the first time since she found the star, she cried. She thought that without the magic star, she could not help anyone anymore. She thought that her purpose was lost. Elena felt so sad that she wanted to give up.</p>
+            </div>
+            
+            <div class="illustration-container">
+                <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/00c0e203-4907-40ea-aa8c-1aac9f885fcf" alt="Elena cries when she discovers the star is gone" class="illustration-image">
+                <div class="illustration-caption">Elena cries when she discovers the star is gone.</div>
+            </div>
+        </div>
+        
+        <!-- CUENTO - PÁGINA 4 -->
+        <div class="page">
+            <div class="story-text">
+                <p>But then, something incredible happened. As Elena was crying, she heard a voice in her heart. The voice told her that the real magic was not in the star, but inside her own soul. The star had only shown her what she already had inside: the ability to care, to understand, and to help others. Elena realized that she did not need the star to be special. She was already special because of who she was.</p>
+                
+                <p>With this understanding, Elena stood up and went to find Victor. When she found him, instead of being angry, she approached him with compassion. She told Victor that she understood why he was sad and why he wanted the star. She told him that he could also be important and respected if he learned to care about others. Victor was so surprised by Elena's kindness that he felt ashamed of what he had done. He gave the star back to Elena and apologized sincerely.</p>
+            </div>
+            
+            <div class="illustration-container">
+                <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/e5764104-643b-49a9-bf17-1cf6141d069b" alt="Elena talks to Victor kindly and he returns the star" class="illustration-image">
+                <div class="illustration-caption">Elena talks to Victor kindly. He gives back the star.</div>
+            </div>
+        </div>
+        
+        <!-- CUENTO - PÁGINA 5 -->
+        <div class="page">
+            <div class="story-text">
+                <p>Elena took the star and walked to the top of the mountain. There, under the light of the moon, she released the star back into the sky. As it rose higher and higher, it became brighter and brighter. Elena watched it disappear among the other stars, and she smiled. She realized that the star did not belong to her. It had been sent to teach her a lesson.</p>
+            </div>
+            
+            <div class="illustration-container">
+                <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/76accbb7-256c-493a-9a1e-37fbfe16c199" alt="Elena releases the star back to the sky" class="illustration-image">
+                <div class="illustration-caption">Elena releases the star back to the sky.</div>
+            </div>
+            
+            <div class="story-text">
+                <p>From that moment on, Elena continued to help the people in her village, but now without the star's magic. She used her intelligence, her kindness, and her compassion. She became a teacher, and she taught young people how to read and write. She helped farmers improve their techniques. She became a healer, and she used her knowledge of herbs to cure sick people. The village prospered, and Elena became known throughout the region as a wise and good woman.</p>
+            </div>
+        </div>
+        
+        <!-- CUENTO - PÁGINA 6 (FINAL) -->
+        <div class="page">
+            <div class="story-text">
+                <p>Years later, when Elena was an old woman, young people would ask her about the stories of the magical star. Elena would smile and say that the real magic was always within us. She would tell them that if we believe in ourselves and care about others, we can create our own miracles. We do not need magic stars from the sky; we have magic inside our hearts.</p>
+                
+                <p>And so, Elena lived a happy and meaningful life, knowing that the most powerful magic in the world is the love and compassion that we share with others. The village she helped became a model for other villages, and the lesson that Elena learned that night has been passed down through generations.</p>
+            </div>
+            
+            <div class="illustration-container">
+                <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/6cca9725-4019-40be-b73f-9cd3e9e9f956" alt="Old Elena teaches young people the lesson of the star" class="illustration-image">
+                <div class="illustration-caption">Old Elena teaches young people the lesson of the star.</div>
+            </div>
+            
+            <div class="end-marker">✦ The End ✦</div>
+        </div>
+        
+        <!-- JUSTIFICACIÓN -->
+        <div class="page">
+            <h1>Justificación</h1>
+            
+            <div class="justification">
+                <h2 style="margin-top: 0;">La Importancia de la Lectura y la Escritura en Segundo Idioma</h2>
+                
+                <p>La lectura es una de las herramientas más importantes para el desarrollo personal, intelectual y cultural de niños y jóvenes. A través de la lectura, las personas pueden acceder a nuevas ideas, culturas y perspectivas del mundo. Los libros y los cuentos nos permiten viajar a lugares lejanos sin tener que mover de nuestro asiento, y nos ayudan a desarrollar la imaginación y la creatividad. Además, la lectura mejora la concentración, el vocabulario y las habilidades de pensamiento crítico. Por lo tanto, es fundamental promover el hábito de leer desde edades tempranas.</p>
+                
+                <p>Por otro lado, aprender a escribir y leer en un segundo idioma como el inglés es cada vez más relevante en nuestro mundo globalizado. El inglés es la lengua internacional de la ciencia, la tecnología, los negocios y la cultura. Si una persona puede escribir y hablar en inglés, tendrá acceso a oportunidades académicas y laborales que de otro modo no tendría. Además, leer y escribir en inglés nos permite comunicarnos con millones de personas alrededor del mundo y entender la información que está disponible en este idioma.</p>
+                
+                <p>El inglés puede influir positivamente en el desarrollo académico, cultural y laboral de los jóvenes. Académicamente, muchas universidades importantes en el mundo exigen el dominio del inglés, y muchos libros y recursos educativos están disponibles solamente en inglés. Culturalmente, a través del inglés podemos acceder a películas, música, literatura y arte de diferentes partes del mundo. Laboralmente, la mayoría de las empresas internacionales buscan empleados que hablen inglés, y esto abre muchas puertas para el futuro profesional de una persona.</p>
+                
+                <p>Un aspecto muy importante que he aprendido en este proyecto es que es crucial crear textos originales y no copiarlos. Cuando copiamos textos de otros, no estamos aprendiendo realmente. El acto de crear nuestros propios textos nos enseña a pensar, a estructurar nuestras ideas y a expresarlas de manera clara. Además, copiar es deshonesto y afecta nuestro aprendizaje académico. Este proyecto me permitió entender que el proceso de crear un cuento en inglés, aunque fue difícil, me ayudó a aprender más sobre la gramática y el vocabulario que sobre simplemente copiar algo de internet.</p>
+                
+                <p>En conclusión, creo que este proyecto fue muy valioso para mi aprendizaje. Me dio la oportunidad de practicar el inglés de una manera creativa, de aplicar la gramática que he aprendido en clase, y de entender la importancia de la honestidad académica y la originalidad. Seguiré leyendo en inglés y escribiendo mis propias historias para mejorar mis habilidades en este idioma importante.</p>
+            </div>
+            
+            <div class="footer">
+                <p><strong>Proyecto presentado por:</strong> ______________________________</p>
+                <p><strong>Fecha:</strong> 25 de enero de 2026</p>
+                <p><strong>Profesor:</strong> Abel Ramírez Luca</p>
+                <p><strong>Grupo:</strong> 5-3</p>
+                <p><strong>Materia:</strong> Temas Selectos de Inglés I</p>
+            </div>
+        </div>
+        
     </div>
-
+    
     <script>
-        // Variables globales
-        let currentPage = 1;
-        let initialRating = 0;
-        let serviceRating = 0;
-        let foodRating = 0;
-        let waiterRating = 0;
-        
-        // Elementos de la página 1
-        const page1 = document.getElementById('page1');
-        const stars = document.querySelectorAll('#page1 .star');
-        const ratingText = document.getElementById('rating-text');
-        const nextBtn = document.getElementById('next-btn');
-        
-        // Elementos de la página 2
-        const page2 = document.getElementById('page2');
-        const serviceStars = document.querySelectorAll('#service-stars .small-star');
-        const serviceRatingText = document.getElementById('service-rating-text');
-        const foodStars = document.querySelectorAll('#food-stars .small-star');
-        const foodRatingText = document.getElementById('food-rating-text');
-        const waiterStars = document.querySelectorAll('#waiter-stars .small-star');
-        const waiterRatingText = document.getElementById('waiter-rating-text');
-        const surveyForm = document.getElementById('survey-form');
-        const backBtn = document.getElementById('back-btn');
-        
-        // Elementos de la página 3
-        const page3 = document.getElementById('page3');
-        const restartBtn = document.getElementById('restart-btn');
-        
-        // Elementos del mensaje de éxito
-        const successMessage = document.getElementById('success-message');
-        const newReviewBtn = document.getElementById('new-review-btn');
-        
-        // Funciones para manejar las estrellas
-        function setupStarRating(stars, ratingText, ratingVariable) {
-            stars.forEach(star => {
-                star.addEventListener('click', function() {
-                    const value = parseInt(this.getAttribute('data-value'));
-                    
-                    // Actualizar estrellas visualmente
-                    stars.forEach(s => {
-                        const starIcon = s.querySelector('i');
-                        if (parseInt(s.getAttribute('data-value')) <= value) {
-                            s.classList.add('selected');
-                            starIcon.classList.remove('far');
-                            starIcon.classList.add('fas');
-                        } else {
-                            s.classList.remove('selected');
-                            starIcon.classList.remove('fas');
-                            starIcon.classList.add('far');
-                        }
-                    });
-                    
-                    // Actualizar texto
-                    const ratingTexts = [
-                        "Muy mala",
-                        "Mala",
-                        "Regular",
-                        "Buena",
-                        "Excelente"
-                    ];
-                    ratingText.textContent = ratingTexts[value - 1];
-                    
-                    // Actualizar variable de calificación
-                    if (ratingVariable === 'initial') {
-                        initialRating = value;
-                        nextBtn.disabled = false;
-                    } else if (ratingVariable === 'service') {
-                        serviceRating = value;
-                    } else if (ratingVariable === 'food') {
-                        foodRating = value;
-                    } else if (ratingVariable === 'waiter') {
-                        waiterRating = value;
-                    }
-                });
-            });
-        }
-        
-        // Configurar las estrellas de la página 1
-        setupStarRating(stars, ratingText, 'initial');
-        
-        // Configurar las estrellas de la página 2
-        setupStarRating(serviceStars, serviceRatingText, 'service');
-        setupStarRating(foodStars, foodRatingText, 'food');
-        setupStarRating(waiterStars, waiterRatingText, 'waiter');
-        
-        // Botón siguiente en página 1
-        nextBtn.addEventListener('click', function() {
-            if (initialRating === 5) {
-                // Si dan 5 estrellas, ir a página 3
-                showPage(3);
-            } else {
-                // Si dan menos de 5 estrellas, ir a página 2 (formulario completo)
-                showPage(2);
-            }
+        window.addEventListener('load', function() {
+            // Opcional: descomenta para imprimir automáticamente al abrir
+            // window.print();
         });
-        
-        // Botón volver en página 2
-        backBtn.addEventListener('click', function() {
-            showPage(1);
-        });
-        
-        // Botón reiniciar en página 3
-        restartBtn.addEventListener('click', function() {
-            resetForm();
-            showPage(1);
-        });
-        
-        // Botón nueva calificación en mensaje de éxito
-        newReviewBtn.addEventListener('click', function() {
-            resetForm();
-            successMessage.style.display = 'none';
-            showPage(1);
-        });
-        
-        // Enviar formulario
-        surveyForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Aquí normalmente enviaríamos los datos a un servidor
-            // Por ahora, solo mostramos el mensaje de éxito
-            successMessage.style.display = 'block';
-            page2.style.display = 'none';
-            
-            // Simular envío de datos
-            console.log('=== CALIFICACIÓN ENVIADA ===');
-            console.log('Calificación inicial:', initialRating);
-            console.log('Servicio general:', serviceRating);
-            console.log('Calidad de la barbacoa:', foodRating);
-            console.log('Atención del mesero:', waiterRating);
-            console.log('Nombre del mesero:', document.getElementById('waiter-name').value);
-            console.log('Lo que más gustó:', document.getElementById('liked-most').value);
-            console.log('Sugerencias de mejora:', document.getElementById('improvements').value);
-            console.log('Volvería a visitar:', document.querySelector('input[name="return"]:checked')?.value || 'No seleccionado');
-            console.log('Datos de contacto:', document.getElementById('contact').value);
-        });
-        
-        // Función para mostrar una página específica
-        function showPage(pageNumber) {
-            // Ocultar todas las páginas
-            page1.classList.remove('active-page');
-            page2.classList.remove('active-page');
-            page3.classList.remove('active-page');
-            successMessage.style.display = 'none';
-            
-            // Mostrar la página solicitada
-            if (pageNumber === 1) {
-                page1.classList.add('active-page');
-            } else if (pageNumber === 2) {
-                page2.classList.add('active-page');
-            } else if (pageNumber === 3) {
-                page3.classList.add('active-page');
-            }
-            
-            currentPage = pageNumber;
-        }
-        
-        // Función para reiniciar el formulario
-        function resetForm() {
-            // Reiniciar calificaciones
-            initialRating = 0;
-            serviceRating = 0;
-            foodRating = 0;
-            waiterRating = 0;
-            
-            // Reiniciar estrellas visualmente
-            stars.forEach(star => {
-                star.classList.remove('selected');
-                const starIcon = star.querySelector('i');
-                starIcon.classList.remove('fas');
-                starIcon.classList.add('far');
-            });
-            
-            serviceStars.forEach(star => {
-                star.classList.remove('selected');
-                const starIcon = star.querySelector('i');
-                starIcon.classList.remove('fas');
-                starIcon.classList.add('far');
-            });
-            
-            foodStars.forEach(star => {
-                star.classList.remove('selected');
-                const starIcon = star.querySelector('i');
-                starIcon.classList.remove('fas');
-                starIcon.classList.add('far');
-            });
-            
-            waiterStars.forEach(star => {
-                star.classList.remove('selected');
-                const starIcon = star.querySelector('i');
-                starIcon.classList.remove('fas');
-                starIcon.classList.add('far');
-            });
-            
-            // Reiniciar textos
-            ratingText.textContent = 'Selecciona una calificación';
-            serviceRatingText.textContent = 'Selecciona una calificación';
-            foodRatingText.textContent = 'Selecciona una calificación';
-            waiterRatingText.textContent = 'Selecciona una calificación';
-            
-            // Reiniciar campos del formulario
-            document.getElementById('waiter-name').value = '';
-            document.getElementById('liked-most').value = '';
-            document.getElementById('improvements').value = '';
-            document.getElementById('contact').value = '';
-            
-            // Desmarcar radio buttons
-            const radioButtons = document.querySelectorAll('input[name="return"]');
-            radioButtons.forEach(radio => {
-                radio.checked = false;
-            });
-            
-            // Deshabilitar botón siguiente
-            nextBtn.disabled = true;
-        }
     </script>
 </body>
 </html>
