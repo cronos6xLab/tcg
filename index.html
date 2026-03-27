@@ -1,384 +1,1409 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Star of Hope - A Fairy Tale</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Georgia', serif;
-            line-height: 1.6;
-            color: #333;
-            background: #f5f5f5;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-        }
-        
-        .page {
-            padding: 60px 50px;
-            min-height: 100vh;
-            page-break-after: always;
-            border-bottom: 2px solid #ddd;
-        }
-        
-        .cover-page {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-        
-        .cover-page h1 {
-            font-size: 4em;
-            margin-bottom: 30px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-        
-        .cover-image {
-            width: 100%;
-            max-width: 500px;
-            height: auto;
-            margin: 30px 0;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        
-        .cover-page p {
-            font-size: 1.3em;
-            margin-top: 30px;
-        }
-        
-        h1 {
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            color: #2c3e50;
-            border-bottom: 3px solid #667eea;
-            padding-bottom: 15px;
-        }
-        
-        h2 {
-            font-size: 1.8em;
-            margin-top: 40px;
-            margin-bottom: 20px;
-            color: #34495e;
-        }
-        
-        h3 {
-            font-size: 1.3em;
-            margin-top: 25px;
-            margin-bottom: 15px;
-            color: #555;
-            font-weight: bold;
-        }
-        
-        p {
-            margin-bottom: 15px;
-            text-align: justify;
-            font-size: 1em;
-            line-height: 1.8;
-        }
-        
-        .question {
-            background: #f0f4ff;
-            padding: 20px;
-            margin: 20px 0;
-            border-left: 5px solid #667eea;
-            border-radius: 5px;
-        }
-        
-        .question-text {
-            font-weight: bold;
-            color: #667eea;
-            margin-bottom: 10px;
-            font-style: italic;
-        }
-        
-        .answer-text {
-            color: #333;
-            font-style: normal;
-            line-height: 1.8;
-        }
-        
-        .illustration-container {
-            text-align: center;
-            margin: 30px 0;
-            page-break-inside: avoid;
-        }
-        
-        .illustration-image {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            margin-bottom: 15px;
-        }
-        
-        .illustration-caption {
-            font-style: italic;
-            color: #666;
-            font-size: 0.95em;
-            margin-bottom: 30px;
-        }
-        
-        .justification {
-            background: #fff9e6;
-            padding: 30px;
-            border-radius: 8px;
-            border: 2px solid #f0d66f;
-        }
-        
-        .footer {
-            text-align: center;
-            margin-top: 40px;
-            font-size: 0.9em;
-            color: #888;
-            border-top: 1px solid #ddd;
-            padding-top: 20px;
-        }
-        
-        .story-text {
-            text-align: justify;
-            font-size: 1.05em;
-            line-height: 1.9;
-        }
-        
-        .end-marker {
-            text-align: center;
-            font-size: 1.5em;
-            margin: 40px 0;
-            color: #667eea;
-            font-weight: bold;
-        }
-        
-        @media print {
-            body {
-                background: white;
-            }
-            
-            .container {
-                box-shadow: none;
-            }
-            
-            .page {
-                page-break-after: always;
-                box-shadow: none;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FacturaExpress - Creador de Facturas</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --primary-light: #dbeafe;
+      --accent: #0ea5e9;
+      --success: #10b981;
+      --danger: #ef4444;
+      --danger-light: #fee2e2;
+      --warning: #f59e0b;
+      --gray-50: #f8fafc;
+      --gray-100: #f1f5f9;
+      --gray-200: #e2e8f0;
+      --gray-300: #cbd5e1;
+      --gray-400: #94a3b8;
+      --gray-500: #64748b;
+      --gray-600: #475569;
+      --gray-700: #334155;
+      --gray-800: #1e293b;
+      --gray-900: #0f172a;
+      --radius: 12px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 6px rgba(0,0,0,0.04);
+      --shadow-lg: 0 4px 12px rgba(0,0,0,0.1), 0 8px 24px rgba(0,0,0,0.06);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--gray-100);
+      color: var(--gray-800);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    .app-header {
+      background: linear-gradient(135deg, var(--primary) 0%, #1e40af 50%, #1e3a8a 100%);
+      color: white;
+      padding: 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 20px rgba(37, 99, 235, 0.3);
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-icon {
+      width: 42px;
+      height: 42px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      backdrop-filter: blur(10px);
+    }
+
+    .logo h1 {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .logo span {
+      font-size: 12px;
+      opacity: 0.8;
+      font-weight: 400;
+      display: block;
+      margin-top: -2px;
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .currency-select {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: white;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+    }
+
+    .currency-select option { color: var(--gray-800); background: white; }
+
+    /* Main */
+    .main-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    /* Cards */
+    .card {
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+      overflow: hidden;
+      border: 1px solid var(--gray-200);
+      transition: box-shadow 0.2s;
+    }
+
+    .card:hover { box-shadow: var(--shadow-lg); }
+
+    .card-header {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--gray-200);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: var(--gray-50);
+    }
+
+    .card-header h2 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--gray-800);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-header h2 .icon {
+      width: 32px;
+      height: 32px;
+      background: var(--primary-light);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .card-body { padding: 24px; }
+
+    .card-header .badge {
+      font-size: 11px;
+      background: var(--primary-light);
+      color: var(--primary);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+
+    /* Grid layout */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+    }
+
+    /* Form fields */
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gray-600);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      color: var(--gray-800);
+      transition: all 0.2s;
+      background: white;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 70px;
+    }
+
+    .form-group input::placeholder { color: var(--gray-400); }
+
+    /* Collapsible sections */
+    .collapsible-toggle {
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .collapsible-toggle::after {
+      content: '▼';
+      font-size: 10px;
+      margin-left: 8px;
+      transition: transform 0.3s;
+      display: inline-block;
+    }
+
+    .collapsible-toggle.collapsed::after {
+      transform: rotate(-90deg);
+    }
+
+    .card-body.collapsed {
+      display: none;
+    }
+
+    /* Buttons */
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    .btn:active { transform: scale(0.97); }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+    .btn-primary:hover { background: var(--primary-dark); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); }
+
+    .btn-success {
+      background: var(--success);
+      color: white;
+    }
+    .btn-success:hover { background: #059669; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); }
+
+    .btn-danger {
+      background: white;
+      color: var(--danger);
+      border: 1.5px solid var(--danger);
+    }
+    .btn-danger:hover { background: var(--danger-light); }
+
+    .btn-outline {
+      background: white;
+      color: var(--primary);
+      border: 1.5px solid var(--primary);
+    }
+    .btn-outline:hover { background: var(--primary-light); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--gray-500);
+      padding: 6px 10px;
+    }
+    .btn-ghost:hover { background: var(--gray-100); color: var(--danger); }
+
+    .btn-lg {
+      padding: 14px 28px;
+      font-size: 15px;
+      border-radius: 10px;
+    }
+
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+
+    .btn-icon {
+      width: 34px;
+      height: 34px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+    }
+
+    /* Table */
+    .table-container {
+      overflow-x: auto;
+      margin: 0 -24px;
+      padding: 0 24px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      min-width: 700px;
+    }
+
+    thead th {
+      background: var(--gray-50);
+      padding: 12px 14px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--gray-500);
+      text-align: left;
+      border-bottom: 2px solid var(--gray-200);
+      position: sticky;
+      top: 0;
+    }
+
+    thead th:first-child { border-radius: 8px 0 0 0; }
+    thead th:last-child { border-radius: 0 8px 0 0; text-align: center; }
+
+    tbody td {
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--gray-100);
+      vertical-align: middle;
+    }
+
+    tbody tr:hover { background: var(--gray-50); }
+
+    tbody td input {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 6px;
+      font-size: 13px;
+      font-family: inherit;
+      transition: all 0.2s;
+      background: white;
+    }
+
+    tbody td input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+    }
+
+    tbody td input[type="number"] {
+      text-align: right;
+      -moz-appearance: textfield;
+    }
+
+    tbody td input[type="number"]::-webkit-inner-spin-button,
+    tbody td input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+    }
+
+    .td-amount {
+      font-weight: 600;
+      color: var(--gray-800);
+      text-align: right;
+      font-size: 14px;
+      padding-right: 14px !important;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .td-actions { text-align: center; width: 50px; }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--gray-400);
+    }
+
+    .empty-state .empty-icon {
+      font-size: 40px;
+      margin-bottom: 12px;
+    }
+
+    .empty-state p { font-size: 14px; }
+
+    /* Totals */
+    .totals-section {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 20px;
+    }
+
+    .totals-box {
+      width: 100%;
+      max-width: 400px;
+      background: var(--gray-50);
+      border-radius: 10px;
+      padding: 20px;
+      border: 1.5px solid var(--gray-200);
+    }
+
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      font-size: 14px;
+    }
+
+    .total-row.separator {
+      border-top: 2px solid var(--gray-300);
+      margin-top: 8px;
+      padding-top: 14px;
+    }
+
+    .total-row label {
+      color: var(--gray-600);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .total-row .value {
+      font-weight: 600;
+      color: var(--gray-800);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .total-row.grand-total {
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .total-row.grand-total .value {
+      color: var(--primary);
+      font-weight: 800;
+    }
+
+    .total-row input {
+      width: 70px;
+      padding: 6px 8px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 6px;
+      text-align: right;
+      font-size: 13px;
+      font-family: inherit;
+      background: white;
+    }
+
+    .total-row input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+    }
+
+    /* Action bar */
+    .action-bar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 24px 0 40px;
+    }
+
+    /* Toast notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--gray-800);
+      color: white;
+      padding: 14px 24px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+      z-index: 1000;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast.success { background: var(--success); }
+    .toast.error { background: var(--danger); }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .main-container { padding: 16px; }
+      .card-body { padding: 16px; }
+      .card-header { padding: 14px 16px; }
+      .header-inner { padding: 12px 16px; }
+      .logo h1 { font-size: 18px; }
+      .totals-box { max-width: 100%; }
+      .action-bar { justify-content: stretch; }
+      .action-bar .btn { flex: 1; justify-content: center; }
+      .btn-lg { padding: 12px 20px; font-size: 14px; }
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card { animation: fadeIn 0.3s ease; }
+
+    /* PDF specific */
+    .row-number {
+      width: 40px;
+      text-align: center;
+      color: var(--gray-400);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* Saved indicator */
+    .saved-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      color: var(--success);
+      font-weight: 600;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .saved-badge.visible { opacity: 1; }
+
+    /* Invoice number display */
+    .invoice-number {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--primary);
+      letter-spacing: -0.5px;
+    }
+
+    /* Logo upload area */
+    .logo-upload {
+      width: 120px;
+      height: 120px;
+      border: 2px dashed var(--gray-300);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      overflow: hidden;
+      background: var(--gray-50);
+    }
+
+    .logo-upload:hover {
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    .logo-upload img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 8px;
+    }
+
+    .logo-upload .placeholder {
+      text-align: center;
+      font-size: 11px;
+      color: var(--gray-400);
+    }
+
+    .logo-upload .placeholder span {
+      font-size: 28px;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    /* Print styles */
+    @media print {
+      .app-header, .action-bar, .btn, .no-print { display: none !important; }
+      .card { box-shadow: none; border: 1px solid #ddd; break-inside: avoid; }
+      body { background: white; }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        
-        <!-- COVER PAGE -->
-        <div class="page cover-page">
-            <h1>The Star of Hope</h1>
-            <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/8c6295a7-0fe9-41a2-add2-312f3a4b3d4b" alt="The Star of Hope Cover" class="cover-image">
-            <p>A Fairy Tale</p>
-            <p style="margin-top: 60px; font-size: 1.1em;">by: ______________________</p>
-            <p>Group: 5-3</p>
-            <p style="margin-top: 40px; font-size: 0.95em;">Temas Selectos de Inglés I</p>
-            <p style="font-size: 0.95em;">Profesor: Abel Ramírez Luca</p>
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="logo">
+        <div class="logo-icon">📄</div>
+        <div>
+          <h1>FacturaExpress</h1>
+          <span>Creador de facturas profesional</span>
         </div>
-        
-        <!-- PREGUNTAS GUÍA -->
-        <div class="page">
-            <h1>Guide Questions</h1>
-            
-            <div class="question">
-                <div class="question-text">1. What is the title of my fairy tale and why did I choose it?</div>
-                <div class="answer-text">
-                    The title of my fairy tale is "The Star of Hope". I choosed this title because the story is about a girl that finds hope in a dark moment of her life. The star represents something bright and beautiful that helps her to find her way. I think this name is good because it resume the main message of the story.
-                </div>
-            </div>
-            
-            <div class="question">
-                <div class="question-text">2. Who is my story written for (children or teenagers) and why?</div>
-                <div class="answer-text">
-                    My story is written for teenagers, especially for teenagers between 14 and 17 years old. The reason is that they can understand better the feelings of the principal character and the problems that she faces in the story. I wrote it for teenagers because the lesson at the end is about never giving up and always to believe in your dreams, and I think teenagers needs to hear this message more than childrens.
-                </div>
-            </div>
-            
-            <div class="question">
-                <div class="question-text">3. What is my fairy tale about and what message does it communicate?</div>
-                <div class="answer-text">
-                    My fairy tale is about a girl named Elena who lives in a poor village in the mountains. One day, she found a magic star that was fallen from the sky. The star give her the power to see the future and to understand the problems of other people. Elena used this power to help the people in her village. At the end, she realized that the real magic is not the star, but the love and compassion that she have for others. The message is that we can be magical and special if we help others and if we care about them.
-                </div>
-            </div>
-        </div>
-        
-        <!-- PREGUNTAS GUÍA PÁGINA 2 -->
-        <div class="page">
-            <h1>Guide Questions (Continued)</h1>
-            
-            <div class="question">
-                <div class="question-text">4. Which fairy tale elements did I include and why?</div>
-                <div class="answer-text">
-                    I included several fairy tale elements in my story. First, I used a magic object, which is the star. This is a typical element of fairy tales because the magic is very important in this genre. Second, I included a main character (Elena) that is a common person but with a special destiny. Third, I included magical powers that must be used for good things, not for bad things. Fourth, I wrote a conflict in my story when Elena lost the star and she had to find her own power inside her. And finally, I included a happy ending because fairy tales usually have this type of ending where the good person wins and the lesson is learned.
-                </div>
-            </div>
-            
-            <div class="question">
-                <div class="question-text">5. What grammatical topics from Selected Topics in English I, did I intentionally use in my story?</div>
-                <div class="answer-text">
-                    I intentionaly use several grammatical topics in my story. I used the Past Simple because the story is narrated in the past, with verbs like "lived", "found", "was". I also used the Present Progressive to describe actions that were happening, for example: "she was walking in the forest". I used the Passive Voice in sentences like "the star was fallen from the sky" and "Elena was chosen by the magic". I included Tag Questions like "she was happy, wasn't she?" and "he could understand, couldn't he?". I used the Passive Voice in future: "the village will be saved by Elena". I also used Modal Verbs like "should", "could" and "must" in sentences like "she should believe in herself" and "she could use her powers". Finally, I used First Conditional like "if she helps the people, she will feel happy" and Second Conditional like "if she didn't have the star, she would find another way".
-                </div>
-            </div>
-        </div>
-        
-        <!-- PORTADA DEL CUENTO -->
-        <div class="page" style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
-            <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/17a5b847-f1b8-4d4f-83ec-ea6a32d4671a" alt="The Star of Hope" class="cover-image" style="max-width: 100%; height: auto;">
-            <h1 style="margin-top: 40px;">The Star of Hope</h1>
-            <h2 style="color: #666;">A Fairy Tale</h2>
-        </div>
-        
-        <!-- CUENTO - PÁGINA 1 -->
-        <div class="page">
-            <h2>The Star of Hope</h2>
-            
-            <div class="story-text">
-                <p>Once upon a time, in a small village hidden among the mountains, there lived a girl named Elena. She was about fifteen years old, and her life was not easy. Her family was very poor, and she had to work hard every day to help her parents. Elena lived in a small house at the edge of the village, far away from other people. Every morning, she would go to the forest to collect wood and plants that she could sell in the market.</p>
-                
-                <p>One dark night, when Elena was walking home from the forest, something magical happened. A bright light fell from the sky like a comet. Elena ran towards the light, and when she arrived at the place, she found a beautiful star on the ground. The star was glowing with a soft, golden light. It was the most beautiful thing that Elena had ever seen in her entire life. She took the star carefully in her hands, and immediately, she felt a warm sensation running through her body.</p>
-            </div>
-            
-            <div class="illustration-container">
-                <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/ec868cfa-c1f8-454c-ba4e-f1085f17218c" alt="Elena finds the magic star in the forest" class="illustration-image">
-                <div class="illustration-caption">Elena finds the magic star in the forest.</div>
-            </div>
-        </div>
-        
-        <!-- CUENTO - PÁGINA 2 -->
-        <div class="page">
-            <div class="story-text">
-                <p>That night, Elena could not sleep because she was thinking about the star. She looked at it for hours, and as she observed it, she began to understand something strange. The star was giving her visions of the future. She could see what would happen to the people in her village. She could see their problems, their sadness, and their hopes. It was as if the star had chosen her for a special purpose.</p>
-                
-                <p>The next morning, Elena decided that she would use the star's power to help her village. She went to see a woman named Maria, whose son was sick. Elena touched the star, and suddenly, she could see exactly what Maria's son needed. She gave Maria advice about special herbs that would help her son recover. Maria was surprised because Elena knew so much about medicine, but Elena did not tell her about the star.</p>
-                
-                <p>Day after day, Elena used the star's magic to help more and more people. If a farmer needed to know when to plant his crops, Elena would look at the star and tell him. If someone was lost in the mountains, Elena would see their location through the star's visions. If a family did not have money for food, Elena would find a way to help them. The village began to change. People started to trust each other more. The crops grew better. The sick people recovered. Happiness was returning to the village.</p>
-            </div>
-            
-            <div class="illustration-container">
-                <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/6399d02e-c409-4cda-a51b-8a3b50e004a0" alt="Elena helps the villagers with the star's magic" class="illustration-image">
-                <div class="illustration-caption">Elena helps the villagers with the star's magic.</div>
-            </div>
-        </div>
-        
-        <!-- CUENTO - PÁGINA 3 -->
-        <div class="page">
-            <div class="story-text">
-                <p>However, Elena did not realize that someone had been watching her. There was a jealous man named Victor who lived in the village. He wanted to be important and famous, but nobody respected him because he was selfish and unkind. Victor saw that Elena was becoming more and more respected by the villagers, and he became very angry. One night, while Elena was sleeping, Victor broke into her house and stole the star.</p>
-            </div>
-            
-            <div class="illustration-container">
-                <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/901c6a81-f20b-4d25-8cc0-0209df6239a9" alt="Victor steals the star while Elena sleeps" class="illustration-image">
-                <div class="illustration-caption">Victor steals the star while Elena sleeps.</div>
-            </div>
-            
-            <div class="story-text">
-                <p>When Elena woke up and found that the star was gone, she felt devastated. For the first time since she found the star, she cried. She thought that without the magic star, she could not help anyone anymore. She thought that her purpose was lost. Elena felt so sad that she wanted to give up.</p>
-            </div>
-            
-            <div class="illustration-container">
-                <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/00c0e203-4907-40ea-aa8c-1aac9f885fcf" alt="Elena cries when she discovers the star is gone" class="illustration-image">
-                <div class="illustration-caption">Elena cries when she discovers the star is gone.</div>
-            </div>
-        </div>
-        
-        <!-- CUENTO - PÁGINA 4 -->
-        <div class="page">
-            <div class="story-text">
-                <p>But then, something incredible happened. As Elena was crying, she heard a voice in her heart. The voice told her that the real magic was not in the star, but inside her own soul. The star had only shown her what she already had inside: the ability to care, to understand, and to help others. Elena realized that she did not need the star to be special. She was already special because of who she was.</p>
-                
-                <p>With this understanding, Elena stood up and went to find Victor. When she found him, instead of being angry, she approached him with compassion. She told Victor that she understood why he was sad and why he wanted the star. She told him that he could also be important and respected if he learned to care about others. Victor was so surprised by Elena's kindness that he felt ashamed of what he had done. He gave the star back to Elena and apologized sincerely.</p>
-            </div>
-            
-            <div class="illustration-container">
-                <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/e5764104-643b-49a9-bf17-1cf6141d069b" alt="Elena talks to Victor kindly and he returns the star" class="illustration-image">
-                <div class="illustration-caption">Elena talks to Victor kindly. He gives back the star.</div>
-            </div>
-        </div>
-        
-        <!-- CUENTO - PÁGINA 5 -->
-        <div class="page">
-            <div class="story-text">
-                <p>Elena took the star and walked to the top of the mountain. There, under the light of the moon, she released the star back into the sky. As it rose higher and higher, it became brighter and brighter. Elena watched it disappear among the other stars, and she smiled. She realized that the star did not belong to her. It had been sent to teach her a lesson.</p>
-            </div>
-            
-            <div class="illustration-container">
-                <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/76accbb7-256c-493a-9a1e-37fbfe16c199" alt="Elena releases the star back to the sky" class="illustration-image">
-                <div class="illustration-caption">Elena releases the star back to the sky.</div>
-            </div>
-            
-            <div class="story-text">
-                <p>From that moment on, Elena continued to help the people in her village, but now without the star's magic. She used her intelligence, her kindness, and her compassion. She became a teacher, and she taught young people how to read and write. She helped farmers improve their techniques. She became a healer, and she used her knowledge of herbs to cure sick people. The village prospered, and Elena became known throughout the region as a wise and good woman.</p>
-            </div>
-        </div>
-        
-        <!-- CUENTO - PÁGINA 6 (FINAL) -->
-        <div class="page">
-            <div class="story-text">
-                <p>Years later, when Elena was an old woman, young people would ask her about the stories of the magical star. Elena would smile and say that the real magic was always within us. She would tell them that if we believe in ourselves and care about others, we can create our own miracles. We do not need magic stars from the sky; we have magic inside our hearts.</p>
-                
-                <p>And so, Elena lived a happy and meaningful life, knowing that the most powerful magic in the world is the love and compassion that we share with others. The village she helped became a model for other villages, and the lesson that Elena learned that night has been passed down through generations.</p>
-            </div>
-            
-            <div class="illustration-container">
-                <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/6cca9725-4019-40be-b73f-9cd3e9e9f956" alt="Old Elena teaches young people the lesson of the star" class="illustration-image">
-                <div class="illustration-caption">Old Elena teaches young people the lesson of the star.</div>
-            </div>
-            
-            <div class="end-marker">✦ The End ✦</div>
-        </div>
-        
-        <!-- JUSTIFICACIÓN -->
-        <div class="page">
-            <h1>Justificación</h1>
-            
-            <div class="justification">
-                <h2 style="margin-top: 0;">La Importancia de la Lectura y la Escritura en Segundo Idioma</h2>
-                
-                <p>La lectura es una de las herramientas más importantes para el desarrollo personal, intelectual y cultural de niños y jóvenes. A través de la lectura, las personas pueden acceder a nuevas ideas, culturas y perspectivas del mundo. Los libros y los cuentos nos permiten viajar a lugares lejanos sin tener que mover de nuestro asiento, y nos ayudan a desarrollar la imaginación y la creatividad. Además, la lectura mejora la concentración, el vocabulario y las habilidades de pensamiento crítico. Por lo tanto, es fundamental promover el hábito de leer desde edades tempranas.</p>
-                
-                <p>Por otro lado, aprender a escribir y leer en un segundo idioma como el inglés es cada vez más relevante en nuestro mundo globalizado. El inglés es la lengua internacional de la ciencia, la tecnología, los negocios y la cultura. Si una persona puede escribir y hablar en inglés, tendrá acceso a oportunidades académicas y laborales que de otro modo no tendría. Además, leer y escribir en inglés nos permite comunicarnos con millones de personas alrededor del mundo y entender la información que está disponible en este idioma.</p>
-                
-                <p>El inglés puede influir positivamente en el desarrollo académico, cultural y laboral de los jóvenes. Académicamente, muchas universidades importantes en el mundo exigen el dominio del inglés, y muchos libros y recursos educativos están disponibles solamente en inglés. Culturalmente, a través del inglés podemos acceder a películas, música, literatura y arte de diferentes partes del mundo. Laboralmente, la mayoría de las empresas internacionales buscan empleados que hablen inglés, y esto abre muchas puertas para el futuro profesional de una persona.</p>
-                
-                <p>Un aspecto muy importante que he aprendido en este proyecto es que es crucial crear textos originales y no copiarlos. Cuando copiamos textos de otros, no estamos aprendiendo realmente. El acto de crear nuestros propios textos nos enseña a pensar, a estructurar nuestras ideas y a expresarlas de manera clara. Además, copiar es deshonesto y afecta nuestro aprendizaje académico. Este proyecto me permitió entender que el proceso de crear un cuento en inglés, aunque fue difícil, me ayudó a aprender más sobre la gramática y el vocabulario que sobre simplemente copiar algo de internet.</p>
-                
-                <p>En conclusión, creo que este proyecto fue muy valioso para mi aprendizaje. Me dio la oportunidad de practicar el inglés de una manera creativa, de aplicar la gramática que he aprendido en clase, y de entender la importancia de la honestidad académica y la originalidad. Seguiré leyendo en inglés y escribiendo mis propias historias para mejorar mis habilidades en este idioma importante.</p>
-            </div>
-            
-            <div class="footer">
-                <p><strong>Proyecto presentado por:</strong> ______________________________</p>
-                <p><strong>Fecha:</strong> 25 de enero de 2026</p>
-                <p><strong>Profesor:</strong> Abel Ramírez Luca</p>
-                <p><strong>Grupo:</strong> 5-3</p>
-                <p><strong>Materia:</strong> Temas Selectos de Inglés I</p>
-            </div>
-        </div>
-        
+      </div>
+      <div class="header-controls">
+        <select class="currency-select" id="currencySelect" onchange="updateCurrency()">
+          <option value="MXN">🇲🇽 MXN</option>
+          <option value="USD">🇺🇸 USD</option>
+          <option value="EUR">🇪🇺 EUR</option>
+        </select>
+      </div>
     </div>
-    
-    <script>
-        window.addEventListener('load', function() {
-            // Opcional: descomenta para imprimir automáticamente al abrir
-            // window.print();
+  </header>
+
+  <div class="main-container">
+
+    <!-- Row: Negocio + Cliente -->
+    <div class="grid-2">
+
+      <!-- Datos del Negocio -->
+      <div class="card">
+        <div class="card-header">
+          <h2>
+            <span class="icon">🏢</span>
+            Datos del Negocio (Emisor)
+          </h2>
+          <span class="saved-badge" id="savedBadge">✓ Guardado</span>
+        </div>
+        <div class="card-body">
+          <div class="form-group" style="display:flex;gap:16px;align-items:flex-start;margin-bottom:20px;">
+            <div class="logo-upload" id="logoUpload" onclick="document.getElementById('logoInput').click()" title="Clic para subir logo">
+              <div class="placeholder" id="logoPlaceholder">
+                <span>🖼️</span>
+                Subir logo
+              </div>
+              <img id="logoPreview" style="display:none" alt="Logo">
+            </div>
+            <input type="file" id="logoInput" accept="image/*" style="display:none" onchange="handleLogo(event)">
+            <div style="flex:1">
+              <div class="form-group">
+                <label>Nombre o Razón Social</label>
+                <input type="text" id="bizName" placeholder="Mi Empresa S.A. de C.V.">
+              </div>
+              <div class="form-group" style="margin-bottom:0">
+                <label>RFC</label>
+                <input type="text" id="bizRFC" placeholder="XAXX010101000" style="text-transform:uppercase">
+              </div>
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Teléfono</label>
+              <input type="tel" id="bizPhone" placeholder="(55) 1234-5678">
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" id="bizEmail" placeholder="contacto@empresa.com">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Dirección</label>
+            <textarea id="bizAddress" placeholder="Calle, número, colonia, CP, ciudad, estado"></textarea>
+          </div>
+          <button class="btn btn-primary" onclick="saveBusinessData()">
+            💾 Guardar datos del negocio
+          </button>
+        </div>
+      </div>
+
+      <!-- Datos del Cliente -->
+      <div class="card">
+        <div class="card-header">
+          <h2>
+            <span class="icon">👤</span>
+            Datos del Cliente
+          </h2>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <label>Nombre del Cliente</label>
+            <input type="text" id="clientName" placeholder="Nombre o razón social del cliente">
+          </div>
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Teléfono</label>
+              <input type="tel" id="clientPhone" placeholder="(55) 9876-5432">
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" id="clientEmail" placeholder="cliente@email.com">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>RFC del Cliente</label>
+            <input type="text" id="clientRFC" placeholder="XAXX010101000" style="text-transform:uppercase">
+          </div>
+          <div class="form-group">
+            <label>Dirección</label>
+            <textarea id="clientAddress" placeholder="Dirección completa del cliente"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detalles de la Factura -->
+    <div class="card">
+      <div class="card-header">
+        <h2>
+          <span class="icon">📋</span>
+          Detalles de la Factura
+        </h2>
+        <span class="invoice-number" id="invoiceNumberDisplay">FACT-0001</span>
+      </div>
+      <div class="card-body">
+        <div class="grid-3">
+          <div class="form-group">
+            <label>Número de Factura</label>
+            <input type="text" id="invoiceNumber" readonly style="background:var(--gray-50);font-weight:700;color:var(--primary);">
+          </div>
+          <div class="form-group">
+            <label>Fecha de Emisión</label>
+            <input type="date" id="invoiceDate">
+          </div>
+          <div class="form-group">
+            <label>Fecha de Vencimiento</label>
+            <input type="date" id="invoiceDueDate">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Instrucciones de Pago / Notas</label>
+          <textarea id="invoiceNotes" placeholder="Ej: Mi número de cuenta CLABE para enviarme dinero desde otro banco (SPEI) es: 1271 8001 6090 080416"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabla de Productos -->
+    <div class="card">
+      <div class="card-header">
+        <h2>
+          <span class="icon">📦</span>
+          Productos / Servicios
+        </h2>
+        <button class="btn btn-primary btn-sm" onclick="addLine()">
+          ＋ Añadir línea
+        </button>
+      </div>
+      <div class="card-body" style="padding-bottom:0;">
+        <div class="table-container">
+          <table id="itemsTable">
+            <thead>
+              <tr>
+                <th style="width:40px">#</th>
+                <th style="min-width:220px">Descripción</th>
+                <th style="width:90px">Cantidad</th>
+                <th style="width:120px">Precio Unit.</th>
+                <th style="width:90px">Desc. %</th>
+                <th style="width:130px;text-align:right">Importe</th>
+                <th style="width:50px"></th>
+              </tr>
+            </thead>
+            <tbody id="itemsBody">
+              <!-- Rows added dynamically -->
+            </tbody>
+          </table>
+          <div id="emptyState" class="empty-state">
+            <div class="empty-icon">📋</div>
+            <p>No hay productos o servicios agregados</p>
+            <button class="btn btn-outline" style="margin-top:12px" onclick="addLine()">＋ Añadir primer concepto</button>
+          </div>
+        </div>
+
+        <!-- Totals -->
+        <div class="totals-section">
+          <div class="totals-box">
+            <div class="total-row">
+              <label>Subtotal</label>
+              <span class="value" id="subtotalDisplay">0.00</span>
+            </div>
+            <div class="total-row">
+              <label>
+                Descuento global
+                <input type="number" id="globalDiscount" value="0" min="0" max="100" step="0.5" onchange="recalculate()" oninput="recalculate()"> %
+              </label>
+              <span class="value" id="discountDisplay" style="color:var(--danger)">-0.00</span>
+            </div>
+            <div class="total-row">
+              <label>
+                IVA
+                <input type="number" id="taxRate" value="16" min="0" max="100" step="0.5" onchange="recalculate()" oninput="recalculate()"> %
+              </label>
+              <span class="value" id="taxDisplay">0.00</span>
+            </div>
+            <div class="total-row separator grand-total">
+              <label>Total <span id="currencyLabel" style="font-size:14px;color:var(--gray-400)">MXN</span></label>
+              <span class="value" id="totalDisplay">0.00</span>
+            </div>
+            <div class="total-row" style="margin-top:6px;">
+              <label>Pagado</label>
+              <div style="display:flex;align-items:center;gap:4px;">
+                <span style="color:var(--gray-400);font-size:13px;">$</span>
+                <input type="number" id="paidAmount" value="0" min="0" step="0.01" onchange="recalculate()" oninput="recalculate()" style="width:100px">
+              </div>
+            </div>
+            <div class="total-row separator" style="font-size:16px;font-weight:700;">
+              <label style="color:var(--danger);font-weight:700;">Balance</label>
+              <span class="value" id="balanceDisplay" style="color:var(--danger);font-weight:800;font-size:18px;">0.00</span>
+            </div>
+          </div>
+        </div>
+        <div style="height:24px"></div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-bar">
+      <button class="btn btn-success btn-lg" onclick="generatePDF()">
+        📥 Generar PDF
+      </button>
+      <button class="btn btn-outline btn-lg" onclick="duplicateInvoice()">
+        📋 Duplicar Factura
+      </button>
+      <button class="btn btn-danger btn-lg" onclick="clearInvoice()">
+        🗑️ Limpiar Factura
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ==================== STATE ====================
+    let lineCounter = 0;
+    let currency = 'MXN';
+    let logoDataURL = null;
+
+    // ==================== INIT ====================
+    document.addEventListener('DOMContentLoaded', () => {
+      loadBusinessData();
+      loadInvoiceNumber();
+      setDefaultDates();
+      addLine(); // Start with one empty line
+      loadLogo();
+      const savedCurrency = localStorage.getItem('fe_currency');
+      if (savedCurrency) {
+        currency = savedCurrency;
+        document.getElementById('currencySelect').value = currency;
+      }
+      updateCurrencyLabel();
+    });
+
+    // ==================== BUSINESS DATA ====================
+    function saveBusinessData() {
+      const data = {
+        name: document.getElementById('bizName').value,
+        rfc: document.getElementById('bizRFC').value,
+        phone: document.getElementById('bizPhone').value,
+        email: document.getElementById('bizEmail').value,
+        address: document.getElementById('bizAddress').value
+      };
+      localStorage.setItem('fe_business', JSON.stringify(data));
+      const badge = document.getElementById('savedBadge');
+      badge.classList.add('visible');
+      setTimeout(() => badge.classList.remove('visible'), 2000);
+      showToast('Datos del negocio guardados correctamente', 'success');
+    }
+
+    function loadBusinessData() {
+      const data = JSON.parse(localStorage.getItem('fe_business') || 'null');
+      if (data) {
+        document.getElementById('bizName').value = data.name || '';
+        document.getElementById('bizRFC').value = data.rfc || '';
+        document.getElementById('bizPhone').value = data.phone || '';
+        document.getElementById('bizEmail').value = data.email || '';
+        document.getElementById('bizAddress').value = data.address || '';
+      }
+    }
+
+    // ==================== LOGO ====================
+    function handleLogo(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(ev) {
+        logoDataURL = ev.target.result;
+        localStorage.setItem('fe_logo', logoDataURL);
+        showLogo();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function loadLogo() {
+      const saved = localStorage.getItem('fe_logo');
+      if (saved) {
+        logoDataURL = saved;
+        showLogo();
+      }
+    }
+
+    function showLogo() {
+      const preview = document.getElementById('logoPreview');
+      const placeholder = document.getElementById('logoPlaceholder');
+      preview.src = logoDataURL;
+      preview.style.display = 'block';
+      placeholder.style.display = 'none';
+    }
+
+    // ==================== INVOICE NUMBER ====================
+    function loadInvoiceNumber() {
+      let counter = parseInt(localStorage.getItem('fe_invoiceCounter') || '0');
+      counter++;
+      localStorage.setItem('fe_invoiceCounter', counter);
+      const num = 'FACT-' + String(counter).padStart(4, '0');
+      document.getElementById('invoiceNumber').value = num;
+      document.getElementById('invoiceNumberDisplay').textContent = num;
+    }
+
+    function setDefaultDates() {
+      const today = new Date();
+      const todayStr = today.toISOString().split('T')[0];
+      document.getElementById('invoiceDate').value = todayStr;
+      const due = new Date(today);
+      due.setDate(due.getDate() + 30);
+      document.getElementById('invoiceDueDate').value = due.toISOString().split('T')[0];
+    }
+
+    // ==================== TABLE LINES ====================
+    function addLine() {
+      lineCounter++;
+      const tbody = document.getElementById('itemsBody');
+      const tr = document.createElement('tr');
+      tr.id = 'row-' + lineCounter;
+      tr.innerHTML = `
+        <td class="row-number">${tbody.children.length + 1}</td>
+        <td><input type="text" placeholder="Descripción del producto o servicio" class="item-desc"></td>
+        <td><input type="number" min="0" step="1" value="1" class="item-qty" onchange="recalculate()" oninput="recalculate()"></td>
+        <td><input type="number" min="0" step="0.01" value="0" class="item-price" onchange="recalculate()" oninput="recalculate()"></td>
+        <td><input type="number" min="0" max="100" step="0.5" value="0" class="item-disc" onchange="recalculate()" oninput="recalculate()"></td>
+        <td class="td-amount" data-amount="0">0.00</td>
+        <td class="td-actions">
+          <button class="btn btn-ghost btn-icon" onclick="removeLine(this)" title="Eliminar línea">✕</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+      updateEmptyState();
+      recalculate();
+      // Focus on description
+      tr.querySelector('.item-desc').focus();
+    }
+
+    function removeLine(btn) {
+      const tr = btn.closest('tr');
+      tr.style.opacity = '0';
+      tr.style.transform = 'translateX(20px)';
+      tr.style.transition = 'all 0.2s';
+      setTimeout(() => {
+        tr.remove();
+        renumberRows();
+        updateEmptyState();
+        recalculate();
+      }, 200);
+    }
+
+    function renumberRows() {
+      const rows = document.querySelectorAll('#itemsBody tr');
+      rows.forEach((row, i) => {
+        row.querySelector('.row-number').textContent = i + 1;
+      });
+    }
+
+    function updateEmptyState() {
+      const rows = document.querySelectorAll('#itemsBody tr');
+      document.getElementById('emptyState').style.display = rows.length === 0 ? 'block' : 'none';
+      document.getElementById('itemsTable').style.display = rows.length === 0 ? 'none' : 'table';
+    }
+
+    // ==================== CALCULATIONS ====================
+    function recalculate() {
+      const rows = document.querySelectorAll('#itemsBody tr');
+      let subtotal = 0;
+
+      rows.forEach(row => {
+        let qty = parseFloat(row.querySelector('.item-qty').value) || 0;
+        let price = parseFloat(row.querySelector('.item-price').value) || 0;
+        let disc = parseFloat(row.querySelector('.item-disc').value) || 0;
+
+        // Validate
+        if (qty < 0) { qty = 0; row.querySelector('.item-qty').value = 0; }
+        if (price < 0) { price = 0; row.querySelector('.item-price').value = 0; }
+        if (disc < 0) { disc = 0; row.querySelector('.item-disc').value = 0; }
+        if (disc > 100) { disc = 100; row.querySelector('.item-disc').value = 100; }
+
+        const amount = qty * price * (1 - disc / 100);
+        row.querySelector('.td-amount').textContent = formatNumber(amount);
+        row.querySelector('.td-amount').dataset.amount = amount;
+        subtotal += amount;
+      });
+
+      const globalDisc = parseFloat(document.getElementById('globalDiscount').value) || 0;
+      const taxRate = parseFloat(document.getElementById('taxRate').value) || 0;
+
+      const discountAmount = subtotal * (globalDisc / 100);
+      const afterDiscount = subtotal - discountAmount;
+      const taxAmount = afterDiscount * (taxRate / 100);
+      const total = afterDiscount + taxAmount;
+
+      document.getElementById('subtotalDisplay').textContent = formatNumber(subtotal);
+      document.getElementById('discountDisplay').textContent = '-' + formatNumber(discountAmount);
+      document.getElementById('taxDisplay').textContent = formatNumber(taxAmount);
+      document.getElementById('totalDisplay').textContent = formatNumber(total);
+
+      const paid = parseFloat(document.getElementById('paidAmount').value) || 0;
+      const balance = total - paid;
+      document.getElementById('balanceDisplay').textContent = formatNumber(balance);
+    }
+
+    function formatNumber(n) {
+      return n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+
+    // ==================== CURRENCY ====================
+    function updateCurrency() {
+      currency = document.getElementById('currencySelect').value;
+      localStorage.setItem('fe_currency', currency);
+      updateCurrencyLabel();
+    }
+
+    function updateCurrencyLabel() {
+      document.getElementById('currencyLabel').textContent = currency;
+    }
+
+    // ==================== CLEAR ====================
+    function clearInvoice() {
+      if (!confirm('¿Estás seguro de limpiar la factura? Se perderán los datos del cliente y los conceptos.')) return;
+
+      document.getElementById('clientName').value = '';
+      document.getElementById('clientPhone').value = '';
+      document.getElementById('clientEmail').value = '';
+      document.getElementById('clientRFC').value = '';
+      document.getElementById('clientAddress').value = '';
+      document.getElementById('invoiceNotes').value = '';
+      document.getElementById('globalDiscount').value = 0;
+      document.getElementById('paidAmount').value = 0;
+
+      document.getElementById('itemsBody').innerHTML = '';
+      lineCounter = 0;
+      updateEmptyState();
+
+      // New invoice number
+      loadInvoiceNumber();
+      setDefaultDates();
+      addLine();
+      recalculate();
+
+      showToast('Factura limpiada. Nuevo número asignado.', 'success');
+    }
+
+    // ==================== DUPLICATE ====================
+    function duplicateInvoice() {
+      // Just increment invoice number, keep everything else
+      loadInvoiceNumber();
+      setDefaultDates();
+      showToast('Factura duplicada con nuevo número: ' + document.getElementById('invoiceNumber').value, 'success');
+    }
+
+    // ==================== TOAST ====================
+    function showToast(message, type = '') {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.className = 'toast ' + type;
+      setTimeout(() => toast.classList.add('show'), 10);
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    // ==================== PDF GENERATION ====================
+    function generatePDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF('p', 'mm', 'a4');
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const pageHeight = doc.internal.pageSize.getHeight();
+      const margin = 20;
+      const contentWidth = pageWidth - margin * 2;
+      let y = margin;
+
+      // Colors matching reference
+      const headerBlue = [21, 60, 107];
+      const accentGold = [180, 155, 80];
+      const tableHeaderBg = [42, 108, 160];
+      const darkText = [30, 30, 30];
+      const grayText = [120, 120, 120];
+      const lightLine = [200, 200, 200];
+      const balanceBlueBg = [42, 108, 160];
+      const currencySymbol = currency === 'MXN' ? '$' : (currency === 'USD' ? '$' : '€');
+
+      const invNum = document.getElementById('invoiceNumber').value;
+
+      // ======== HEADER: Logo left, INVOICE right ========
+      if (logoDataURL) {
+        try {
+          doc.addImage(logoDataURL, 'AUTO', margin, y, 35, 35);
+        } catch(e) { /* ignore */ }
+      }
+
+      // "INVOICE" title top right
+      doc.setFontSize(28);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(...headerBlue);
+      doc.text('INVOICE', pageWidth - margin, y + 10, { align: 'right' });
+
+      y += 45;
+
+      // ======== CLIENT + INVOICE DETAILS ROW ========
+      // Left side: Cliente
+      doc.setFontSize(9);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(...grayText);
+      doc.text('Cliente', margin, y);
+
+      const clientName = document.getElementById('clientName').value || 'Cliente';
+      const clientPhone = document.getElementById('clientPhone').value;
+
+      doc.setFontSize(16);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(...darkText);
+      doc.text(clientName, margin + 22, y);
+      y += 5;
+
+      if (clientPhone) {
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(...grayText);
+        doc.text(clientPhone, margin + 22, y);
+      }
+
+      // Right side: Número, Fecha, DUE DATE
+      const rightLabelX = pageWidth - margin - 65;
+      const rightValueX = pageWidth - margin;
+      let ry = y - 5;
+
+      doc.setFontSize(9);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(...grayText);
+      doc.text('Número:', rightLabelX, ry, { align: 'right' });
+      doc.setTextColor(...darkText);
+      doc.text(invNum, rightValueX, ry, { align: 'right' });
+
+      ry += 5.5;
+      doc.setTextColor(...grayText);
+      doc.text('Fecha:', rightLabelX, ry, { align: 'right' });
+      doc.setTextColor(...darkText);
+      doc.setFont('helvetica', 'normal');
+      doc.text(formatDateDisplay(document.getElementById('invoiceDate').value), rightValueX, ry, { align: 'right' });
+
+      ry += 5.5;
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(...grayText);
+      doc.text('DUE DATE:', rightLabelX, ry, { align: 'right' });
+      doc.setTextColor(...darkText);
+      doc.setFont('helvetica', 'normal');
+      const dueDate = document.getElementById('invoiceDueDate').value;
+      doc.text(dueDate ? formatDateDisplay(dueDate) : 'On receipt', rightValueX, ry, { align: 'right' });
+
+      // Additional client info below
+      y += 4;
+      const clientEmail = document.getElementById('clientEmail').value;
+      const clientRFC = document.getElementById('clientRFC').value;
+      const clientAddr = document.getElementById('clientAddress').value;
+
+      doc.setFontSize(9);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(...grayText);
+      if (clientEmail) { doc.text(clientEmail, margin + 22, y); y += 4; }
+      if (clientRFC) { doc.text('RFC: ' + clientRFC, margin + 22, y); y += 4; }
+      if (clientAddr) {
+        const addrLines = doc.splitTextToSize(clientAddr, contentWidth / 2 - 22);
+        addrLines.forEach(line => { doc.text(line, margin + 22, y); y += 4; });
+      }
+
+      y += 8;
+
+      // ======== TABLE ========
+      const rows = document.querySelectorAll('#itemsBody tr');
+      const tableData = [];
+      rows.forEach((row) => {
+        const desc = row.querySelector('.item-desc').value || '';
+        const qty = row.querySelector('.item-qty').value || '0';
+        const price = parseFloat(row.querySelector('.item-price').value) || 0;
+        const disc = parseFloat(row.querySelector('.item-disc').value) || 0;
+        const amount = row.querySelector('.td-amount').textContent;
+
+        // Build description with discount info if applicable
+        let fullDesc = desc;
+        if (disc > 0) {
+          fullDesc += '\nDescuento: ' + disc + '%';
+        }
+
+        tableData.push([
+          fullDesc,
+          qty,
+          currencySymbol + formatNumber(price),
+          currencySymbol + amount
+        ]);
+      });
+
+      if (tableData.length > 0) {
+        doc.autoTable({
+          startY: y,
+          head: [['Descripción', 'Cantidad', 'Precio unitario', 'Monto']],
+          body: tableData,
+          margin: { left: margin, right: margin },
+          theme: 'plain',
+          headStyles: {
+            fillColor: tableHeaderBg,
+            textColor: [255, 255, 255],
+            fontStyle: 'bold',
+            fontSize: 9,
+            cellPadding: { top: 4, bottom: 4, left: 6, right: 6 },
+            halign: 'left',
+          },
+          bodyStyles: {
+            fontSize: 9,
+            cellPadding: { top: 5, bottom: 5, left: 6, right: 6 },
+            textColor: darkText,
+            lineColor: lightLine,
+            lineWidth: 0.3,
+            overflow: 'linebreak',
+          },
+          columnStyles: {
+            0: { cellWidth: 'auto', halign: 'left', fontStyle: 'normal' },
+            1: { cellWidth: 25, halign: 'center' },
+            2: { cellWidth: 35, halign: 'right' },
+            3: { cellWidth: 30, halign: 'right' },
+          },
+          styles: {
+            lineColor: lightLine,
+            lineWidth: 0,
+          },
+          didDrawCell: function(data) {
+            // Draw bottom border for body rows
+            if (data.section === 'body') {
+              doc.setDrawColor(...lightLine);
+              doc.setLineWidth(0.3);
+              doc.line(data.cell.x, data.cell.y + data.cell.height, data.cell.x + data.cell.width, data.cell.y + data.cell.height);
+            }
+          },
+          didParseCell: function(data) {
+            // Make description column text wrap nicely
+            if (data.section === 'body' && data.column.index === 0) {
+              data.cell.styles.fontStyle = 'normal';
+              data.cell.styles.fontSize = 9;
+            }
+          }
         });
-    </script>
+        y = doc.lastAutoTable.finalY + 12;
+      }
+
+      // ======== TOTALS (right aligned, matching reference) ========
+      const subtotalVal = document.getElementById('subtotalDisplay').textContent;
+      const discDisplay = document.getElementById('discountDisplay').textContent;
+      const totalDisplay = document.getElementById('totalDisplay').textContent;
+      const paidVal = parseFloat(document.getElementById('paidAmount').value) || 0;
+      const balanceVal = document.getElementById('balanceDisplay').textContent;
+      const globalDiscVal = parseFloat(document.getElementById('globalDiscount').value) || 0;
+      const taxRateVal = parseFloat(document.getElementById('taxRate').value) || 0;
+      const taxDisplay = document.getElementById('taxDisplay').textContent;
+
+      const totalsLabelX = pageWidth - margin - 55;
+      const totalsValueX = pageWidth - margin;
+
+      doc.setFontSize(9);
+
+      // SUBTOTAL
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(...grayText);
+      doc.text('SUBTOTAL:', totalsLabelX, y, { align: 'right' });
+      doc.setTextColor(...darkText);
+      doc.text(currencySymbol + subtotalVal, totalsValueX, y, { align: 'right' });
+      y += 6;
+
+      // DISCOUNT
+      if (globalDiscVal > 0) {
+        doc.setTextColor(...grayText);
+        doc.text('DISCOUNT:', totalsLabelX, y, { align: 'right' });
+        doc.setTextColor(...darkText);
+        const discAmount = discDisplay.replace('-', '');
+        doc.text(currencySymbol + discAmount, totalsValueX, y, { align: 'right' });
+        y += 6;
+      }
+
+      // IVA / TAX
+      if (taxRateVal > 0) {
+        doc.setTextColor(...grayText);
+        doc.text('IVA (' + taxRateVal + '%):', totalsLabelX, y, { align: 'right' });
+        doc.setTextColor(...darkText);
+        doc.text(currencySymbol + taxDisplay, totalsValueX, y, { align: 'right' });
+        y += 6;
+      }
+
+      // TOTAL
+      doc.setTextColor(...grayText);
+      doc.text('TOTAL:', totalsLabelX, y, { align: 'right' });
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(...darkText);
+      doc.text(currencySymbol + totalDisplay, totalsValueX, y, { align: 'right' });
+      y += 6;
+
+      // PAID
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(...grayText);
+      doc.text('PAID:', totalsLabelX, y, { align: 'right' });
+      doc.setTextColor(...darkText);
+      doc.text(currencySymbol + formatNumber(paidVal), totalsValueX, y, { align: 'right' });
+      y += 12;
+
+      // ======== FOOTER: Payment instructions left + Balance Due box right ========
+      const notes = document.getElementById('invoiceNotes').value;
+      const footerY = Math.max(y + 5, pageHeight - 45);
+
+      // Left: Instrucciones de pago
+      if (notes) {
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(...tableHeaderBg);
+        doc.text('Instrucciones de pago', margin, footerY);
+
+        doc.setFontSize(8);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(...grayText);
+        const noteLines = doc.splitTextToSize(notes, contentWidth / 2 - 10);
+        let ny = footerY + 5;
+        noteLines.forEach(line => {
+          doc.text(line, margin, ny);
+          ny += 3.8;
+        });
+      }
+
+      // Right: BALANCE DUE box
+      const balanceBoxW = 85;
+      const balanceBoxH = 14;
+      const balanceBoxX = pageWidth - margin - balanceBoxW;
+      const balanceBoxY = footerY - 2;
+
+      doc.setFillColor(...balanceBlueBg);
+      doc.roundedRect(balanceBoxX, balanceBoxY, balanceBoxW, balanceBoxH, 2, 2, 'F');
+
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(255, 255, 255);
+      doc.text('BALANCE DUE', balanceBoxX + 5, balanceBoxY + 9);
+
+      doc.setFontSize(14);
+      doc.setFont('helvetica', 'bold');
+      doc.text(currencySymbol + balanceVal, balanceBoxX + balanceBoxW - 5, balanceBoxY + 10, { align: 'right' });
+
+      // ======== SAVE ========
+      const fileName = 'factura-' + invNum.toLowerCase() + '.pdf';
+      doc.save(fileName);
+      showToast('PDF generado: ' + fileName, 'success');
+    }
+
+    function formatDateDisplay(dateStr) {
+      if (!dateStr) return '';
+      const parts = dateStr.split('-');
+      const months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+      return parts[2] + ' ' + months[parseInt(parts[1]) - 1] + ' ' + parts[0];
+    }
+  </script>
 </body>
 </html>
