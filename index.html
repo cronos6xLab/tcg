@@ -407,6 +407,31 @@
 
     .td-actions { text-align: center; width: 50px; }
 
+    .item-detail {
+      width: 100%;
+      margin-top: 4px;
+      padding: 6px 10px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 12px;
+      color: var(--gray-500);
+      background: var(--gray-50);
+      resize: vertical;
+      min-height: 32px;
+      line-height: 1.4;
+      transition: border-color 0.2s;
+    }
+
+    .item-detail::placeholder { color: var(--gray-300); }
+
+    .item-detail:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+      background: white;
+    }
+
     .empty-state {
       text-align: center;
       padding: 40px 20px;
@@ -789,7 +814,7 @@
             <thead>
               <tr>
                 <th style="width:40px">#</th>
-                <th style="min-width:220px">Descripción</th>
+                <th style="min-width:250px">Descripción</th>
                 <th style="width:90px">Cantidad</th>
                 <th style="width:120px">Precio Unit.</th>
                 <th style="width:90px">Desc. %</th>
@@ -972,7 +997,10 @@
       tr.id = 'row-' + lineCounter;
       tr.innerHTML = `
         <td class="row-number">${tbody.children.length + 1}</td>
-        <td><input type="text" placeholder="Descripción del producto o servicio" class="item-desc"></td>
+        <td>
+          <input type="text" placeholder="Nombre del producto o servicio" class="item-desc">
+          <textarea class="item-detail" placeholder="Descripción detallada (opcional)..." rows="1"></textarea>
+        </td>
         <td><input type="number" min="0" step="1" value="1" class="item-qty" onchange="recalculate()" oninput="recalculate()"></td>
         <td><input type="number" min="0" step="0.01" value="0" class="item-price" onchange="recalculate()" oninput="recalculate()"></td>
         <td><input type="number" min="0" max="100" step="0.5" value="0" class="item-disc" onchange="recalculate()" oninput="recalculate()"></td>
@@ -1221,18 +1249,25 @@
       // ======== TABLE ========
       const rows = document.querySelectorAll('#itemsBody tr');
       const tableData = [];
+      const rowDetails = []; // Store detail text per row for custom rendering
       rows.forEach((row) => {
         const desc = row.querySelector('.item-desc').value || '';
+        const detail = row.querySelector('.item-detail').value || '';
         const qty = row.querySelector('.item-qty').value || '0';
         const price = parseFloat(row.querySelector('.item-price').value) || 0;
         const disc = parseFloat(row.querySelector('.item-disc').value) || 0;
         const amount = row.querySelector('.td-amount').textContent;
 
-        // Build description with discount info if applicable
+        // Build full description: name + detail (detail rendered separately in didDrawCell)
         let fullDesc = desc;
+        if (detail) {
+          fullDesc += '\n' + detail;
+        }
         if (disc > 0) {
           fullDesc += '\nDescuento: ' + disc + '%';
         }
+
+        rowDetails.push({ name: desc, detail: detail, disc: disc });
 
         tableData.push([
           fullDesc,
@@ -1282,9 +1317,86 @@
               doc.setLineWidth(0.3);
               doc.line(data.cell.x, data.cell.y + data.cell.height, data.cell.x + data.cell.width, data.cell.y + data.cell.height);
             }
+
+            // Custom render for description column: name bold, detail smaller & lighter
+            if (data.section === 'body' && data.column.index === 0) {
+              const rowInfo = rowDetails[data.row.index];
+              if (!rowInfo) return;
+
+              const cellX = data.cell.x + data.cell.padding('left');
+              const cellW = data.cell.width - data.cell.padding('left') - data.cell.padding('right');
+              let textY = data.cell.y + data.cell.padding('top') + 3.5;
+
+              // Clear the auto-rendered text
+              doc.setFillColor(255, 255, 255);
+              doc.rect(data.cell.x + 0.5, data.cell.y + 0.5, data.cell.width - 1, data.cell.height - 1, 'F');
+
+              // Draw product name (bold, normal size)
+              doc.setFontSize(10);
+              doc.setFont('helvetica', 'bold');
+              doc.setTextColor(...darkText);
+              const nameLines = doc.splitTextToSize(rowInfo.name, cellW);
+              nameLines.forEach(line => {
+                doc.text(line, cellX, textY);
+                textY += 4.5;
+              });
+
+              // Draw detail text (smaller, lighter)
+              if (rowInfo.detail) {
+                textY += 1;
+                doc.setFontSize(8);
+                doc.setFont('helvetica', 'normal');
+                doc.setTextColor(130, 130, 130);
+                const detailLines = doc.splitTextToSize(rowInfo.detail, cellW);
+                detailLines.forEach(line => {
+                  doc.text(line, cellX, textY);
+                  textY += 3.5;
+                });
+              }
+
+              // Draw discount info if applicable
+              if (rowInfo.disc > 0) {
+                textY += 0.5;
+                doc.setFontSize(7.5);
+                doc.setFont('helvetica', 'italic');
+                doc.setTextColor(160, 160, 160);
+                doc.text('Descuento: ' + rowInfo.disc + '%', cellX, textY);
+              }
+            }
+          },
+          willDrawCell: function(data) {
+            // Calculate dynamic row height for description column
+            if (data.section === 'body' && data.column.index === 0) {
+              const rowInfo = rowDetails[data.row.index];
+              if (!rowInfo) return;
+
+              const cellW = data.cell.width - data.cell.padding('left') - data.cell.padding('right');
+              let neededH = data.cell.padding('top') + data.cell.padding('bottom');
+
+              // Name lines
+              doc.setFontSize(10);
+              const nameLines = doc.splitTextToSize(rowInfo.name, cellW);
+              neededH += nameLines.length * 4.5;
+
+              // Detail lines
+              if (rowInfo.detail) {
+                doc.setFontSize(8);
+                const detailLines = doc.splitTextToSize(rowInfo.detail, cellW);
+                neededH += 1 + detailLines.length * 3.5;
+              }
+
+              // Discount line
+              if (rowInfo.disc > 0) {
+                neededH += 4;
+              }
+
+              neededH += 2; // bottom padding
+              if (neededH > data.row.height) {
+                data.row.height = neededH;
+              }
+            }
           },
           didParseCell: function(data) {
-            // Make description column text wrap nicely
             if (data.section === 'body' && data.column.index === 0) {
               data.cell.styles.fontStyle = 'normal';
               data.cell.styles.fontSize = 9;
