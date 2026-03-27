@@ -1173,7 +1173,7 @@
       doc.setFontSize(28);
       doc.setFont('helvetica', 'bold');
       doc.setTextColor(...headerBlue);
-      doc.text('INVOICE', pageWidth - margin, y + 10, { align: 'right' });
+      doc.text('AION', pageWidth - margin, y + 10, { align: 'right' });
 
       y += 45;
 
@@ -1222,7 +1222,7 @@
       ry += 5.5;
       doc.setFont('helvetica', 'bold');
       doc.setTextColor(...grayText);
-      doc.text('DUE DATE:', rightLabelX, ry, { align: 'right' });
+      doc.text('Fecha de expiración:', rightLabelX, ry, { align: 'right' });
       doc.setTextColor(...darkText);
       doc.setFont('helvetica', 'normal');
       const dueDate = document.getElementById('invoiceDueDate').value;
@@ -1280,7 +1280,7 @@
       if (tableData.length > 0) {
         doc.autoTable({
           startY: y,
-          head: [['Descripción', 'Cantidad', 'Precio unitario', 'Monto']],
+          head: [['Descripción', 'Cant.', 'Precio unitario', 'Monto']],
           body: tableData,
           margin: { left: margin, right: margin },
           theme: 'plain',
